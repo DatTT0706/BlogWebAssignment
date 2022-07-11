@@ -16,7 +16,7 @@ namespace DataAccess.Dao
 
         public IEnumerable<Tag> GetAll()
         {
-            throw new NotImplementedException();
+
         }
 
         public Tag GetById(int id)

@@ -8,20 +8,23 @@ namespace DataAccess.Models
 {
     public partial class PRN231_BlogContext : DbContext
     {
-        public PRN231_BlogContext()
+        private string connectionString;
+        public PRN231_BlogContext(string databaseString)
         {
+            this.connectionString = databaseString;
         }
 
-        public PRN231_BlogContext(DbContextOptions<PRN231_BlogContext> options)
+        public PRN231_BlogContext(DbContextOptions<PRN231_BlogContext> options,string databaseString)
             : base(options)
         {
+            this.connectionString = databaseString;
         }
 
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<PostCategory> PostCategories { get; set; }
         public virtual DbSet<PostComment> PostComments { get; set; }
-        public virtual DbSet<PostMetum> PostMeta { get; set; }
+        public virtual DbSet<PostMeta> PostMeta { get; set; }
         public virtual DbSet<PostTag> PostTags { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -163,7 +166,7 @@ namespace DataAccess.Models
                     .HasConstraintName("FK_post_comment_post");
             });
 
-            modelBuilder.Entity<PostMetum>(entity =>
+            modelBuilder.Entity<PostMeta>(entity =>
             {
                 entity.ToTable("post_meta");
 
