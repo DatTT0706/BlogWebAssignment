@@ -10,7 +10,7 @@ namespace DataAccess.Dao
     {
         public IEnumerable<T> GetAll();
         public T GetById(int id);
-        public T GetByName(string name);
+        public IEnumerable<T> GetByName(string name);
         public void Update(T entity);
         public void DeleteById(int id);
         public void Save(T entity);
