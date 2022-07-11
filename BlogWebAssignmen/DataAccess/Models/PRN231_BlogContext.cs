@@ -14,10 +14,10 @@ namespace DataAccess.Models
             this.connectionString = databaseString;
         }
 
-        public PRN231_BlogContext(DbContextOptions<PRN231_BlogContext> options,string databaseString)
+        public PRN231_BlogContext(DbContextOptions<PRN231_BlogContext> options)
             : base(options)
         {
-            this.connectionString = databaseString;
+            
         }
 
         public virtual DbSet<Category> Categories { get; set; }
