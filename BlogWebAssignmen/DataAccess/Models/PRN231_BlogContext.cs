@@ -8,16 +8,13 @@ namespace DataAccess.Models
 {
     public partial class PRN231_BlogContext : DbContext
     {
-        private string connectionString;
-        public PRN231_BlogContext(string databaseString)
+        public PRN231_BlogContext()
         {
-            this.connectionString = databaseString;
         }
 
-        public PRN231_BlogContext(DbContextOptions<PRN231_BlogContext> options,string databaseString)
+        public PRN231_BlogContext(DbContextOptions<PRN231_BlogContext> options)
             : base(options)
         {
-            this.connectionString = databaseString;
         }
 
         public virtual DbSet<Category> Categories { get; set; }
@@ -34,7 +31,7 @@ namespace DataAccess.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(connectionString);
+                optionsBuilder.UseSqlServer();
             }
         }
 

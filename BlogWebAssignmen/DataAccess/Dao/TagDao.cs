@@ -10,15 +10,13 @@ namespace DataAccess.Dao
 {
     internal class TagDao : BaseDao<Tag>
     {
-        private string connectionString;
-        internal TagDao(string connectionString)
+        internal TagDao( )
         {
-            this.connectionString = connectionString;
         }
 
         public void DeleteById(int id)
         {
-            using (var context = new PRN231_BlogContext(connectionString))
+            using (var context = new PRN231_BlogContext())
             {
                 var item = context.Tags.Find(id);
                 if (item == null) return;
@@ -30,7 +28,7 @@ namespace DataAccess.Dao
         public IEnumerable<Tag> GetAll()
         {
             var result = new List<Tag>();
-            using (var context = new PRN231_BlogContext(connectionString))
+            using (var context = new PRN231_BlogContext())
             {
                 result = context.Tags.ToList();
             }
@@ -40,7 +38,7 @@ namespace DataAccess.Dao
         public Tag GetById(int id)
         {
             var result = new Tag();
-            using (var context = new PRN231_BlogContext(connectionString))
+            using (var context = new PRN231_BlogContext())
             {
                 result = context.Tags.Where(t => t.Id == id).FirstOrDefault();
             }
@@ -56,7 +54,7 @@ namespace DataAccess.Dao
             }
             else
             {
-                using (var context = new PRN231_BlogContext(connectionString))
+                using (var context = new PRN231_BlogContext())
                 {
                     result = context.Tags.Where(t => t.Title == name).ToList();
                 }
@@ -66,7 +64,7 @@ namespace DataAccess.Dao
 
         public void Save(Tag entity)
         {
-            using (var context = new PRN231_BlogContext(connectionString))
+            using (var context = new PRN231_BlogContext())
             {
                 var result = context.Tags.Find(entity.Id);
                 if (result == null) return;
@@ -77,7 +75,7 @@ namespace DataAccess.Dao
 
         public void Update(Tag entity)
         {
-            using (var context = new PRN231_BlogContext(connectionString))
+            using (var context = new PRN231_BlogContext())
             {
                 context.Entry<Tag>(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 context.SaveChanges();
