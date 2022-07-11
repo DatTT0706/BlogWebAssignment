@@ -1,7 +1,9 @@
+using DataAccess.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +30,7 @@ namespace BlogWebAssignment_API
         {
 
             services.AddControllers();
+            services.AddDbContext<PRN231_BlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PRN231_Blog")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BlogWebAssignment_API", Version = "v1" });
