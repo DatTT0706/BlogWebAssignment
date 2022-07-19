@@ -112,7 +112,10 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<PostCategory>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(table => new {
+                     table.PostId,
+                     table.CategoryId
+                });
 
                 entity.ToTable("post_category");
 
@@ -185,7 +188,11 @@ namespace DataAccess.Models
 
             modelBuilder.Entity<PostTag>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(table => new {
+                    table.PostId,
+                    table.TagId
+                });
+
 
                 entity.ToTable("post_tag");
 

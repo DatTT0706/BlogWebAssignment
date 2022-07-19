@@ -18,7 +18,6 @@ namespace DataAccess.Models
         public int Id { get; set; }
         [Required]
         public int? AuthorId { get; set; }
-        [Required]
         public int? ParentId { get; set; }
         [Required,StringLength(100)]
         public string Title { get; set; }
@@ -28,7 +27,6 @@ namespace DataAccess.Models
         public string Slug { get; set; }
         [Required, StringLength(255)]
         public string Summary { get; set; }
-        [Required]
         public int? Published { get; set; }
         [Required]
         public DateTime? CreatedAt { get; set; }

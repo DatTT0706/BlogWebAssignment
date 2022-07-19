@@ -17,7 +17,7 @@ namespace DataAccess.Models
         public string MetaTitle { get; set; }
         [Required, StringLength(150)]
         public string Slug { get; set; }
-        [Required, StringLength(int.MaxValue)]
+        [StringLength(int.MaxValue)]
         public string Content { get; set; }
     }
 }
