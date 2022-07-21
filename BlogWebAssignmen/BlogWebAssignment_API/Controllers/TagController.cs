@@ -36,7 +36,6 @@ namespace BlogWebAssignment_API.Controllers
                 if (post_cats.Any())
                 {
                     return Ok("Tag is in use");
-
                 }
                 else
                 {
@@ -44,8 +43,6 @@ namespace BlogWebAssignment_API.Controllers
                     _context.SaveChanges();
                     return Ok();
                 }
-
-               
             }
             catch (Exception)
             {

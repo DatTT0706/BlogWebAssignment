@@ -1,7 +1,11 @@
-﻿using DataAccess.Models;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using DataAccess.DTO;
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BlogWebAssignment_API.Controllers
@@ -12,19 +16,24 @@ namespace BlogWebAssignment_API.Controllers
     {
        
         private readonly ILogger<PostController> _logger;
+        private MapperConfiguration config;
         private readonly PRN231_BlogContext _context;
+        private IMapper mapper;
 
         public PostController(ILogger<PostController> logger,
             PRN231_BlogContext context)
         {
             _context = context;
+            config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
+            mapper = config.CreateMapper();
             _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var posts = _context.Posts.ToList();
+            List<PostDTO> posts;
+            posts = _context.Posts.ProjectTo<PostDTO>(config).ToList();
             if (posts == null)
             {
                 return NotFound(); // Response with status code: 404
@@ -35,7 +44,8 @@ namespace BlogWebAssignment_API.Controllers
         [HttpGet("id")]
         public IActionResult Get(int id)
         {
-            var post = _context.Posts.FirstOrDefault(x=>x.Id == id);
+            PostDTO post;
+            post = _context.Posts.ProjectTo<PostDTO>(config).FirstOrDefault(x => x.Id == id);
             if (post == null)
             {
                 return NotFound(); // Response with status code: 404
