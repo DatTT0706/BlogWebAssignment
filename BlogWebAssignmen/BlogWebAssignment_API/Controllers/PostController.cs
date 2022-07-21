@@ -3,10 +3,12 @@ using AutoMapper.QueryableExtensions;
 using DataAccess.DTO;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BlogWebAssignment_API.Controllers
 {
@@ -42,7 +44,7 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpGet("id")]
-        public IActionResult Get(int id)
+        public IActionResult GetById(int id)
         {
             PostDTO post;
             post = _context.Posts.ProjectTo<PostDTO>(config).FirstOrDefault(x => x.Id == id);
@@ -51,6 +53,46 @@ namespace BlogWebAssignment_API.Controllers
                 return NotFound(); // Response with status code: 404
             }
             return Ok(post);
+        }
+
+       
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutPost(int id, Post Post)
+        {
+            if (id != Post.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(Post).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PostExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        
+        [HttpPost]
+        public async Task<ActionResult<Post>> PostPost(Post Post)
+        {
+            _context.Posts.Add(Post);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPost", new { id = Post.Id }, Post);
         }
 
         [HttpDelete("id")]
@@ -80,6 +122,11 @@ namespace BlogWebAssignment_API.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        private bool PostExists(int id)
+        {
+            return _context.Posts.Any(e => e.Id == id);
         }
     }
 }
