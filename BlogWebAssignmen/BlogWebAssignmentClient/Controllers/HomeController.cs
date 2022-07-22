@@ -37,28 +37,21 @@ namespace BlogWebAssignmentClient.Controllers
             return View(postDtos);
         }
 
-        public async Task<ActionResult> GetPostDetail(int id)
+        public ActionResult OnGetPostDetail(int id)
         {
             PostDTO post = null;
-            try
+            var responseTask = _client.GetAsync($"id?id={id.ToString()}");
+            responseTask.Wait();
+            var result = responseTask.Result;
+            if (result.IsSuccessStatusCode)
             {
-                var responseTask = _client.GetAsync($"{id.ToString()}");
-                responseTask.Wait();
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadFromJsonAsync<PostDTO>();
-                    readTask.Wait();
-                    post = readTask.Result;
-                }
+                var readTask = result.Content.ReadFromJsonAsync<PostDTO>();
+                readTask.Wait();
+                post = readTask.Result;
+                ;
+            }
 
-                return View("PostDetail", post);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            return View("PostDetail", post);
         }
 
         public IActionResult Privacy()
