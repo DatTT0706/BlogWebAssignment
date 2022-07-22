@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlogWebAssignmentClient.Models;
@@ -13,12 +15,13 @@ namespace BlogWebAssignmentClient.Controllers
     public class HomeController : Controller
     {
         private readonly HttpClient _client;
-        public readonly string PostApi = "https://localhost:5001/api/Post";
+        private readonly string PostApi = "https://localhost:5001/api/Post/";
 
         public HomeController()
         {
             _client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            _client.BaseAddress = new Uri(PostApi);
             _client.DefaultRequestHeaders.Accept.Add(contentType);
         }
 
@@ -32,6 +35,30 @@ namespace BlogWebAssignmentClient.Controllers
             };
             var postDtos = JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
             return View(postDtos);
+        }
+
+        public async Task<ActionResult> GetPostDetail(int id)
+        {
+            PostDTO post = null;
+            try
+            {
+                var responseTask = _client.GetAsync($"{id.ToString()}");
+                responseTask.Wait();
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadFromJsonAsync<PostDTO>();
+                    readTask.Wait();
+                    post = readTask.Result;
+                }
+
+                return View("PostDetail", post);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public IActionResult Privacy()

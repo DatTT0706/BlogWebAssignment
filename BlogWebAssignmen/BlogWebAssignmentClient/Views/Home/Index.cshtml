@@ -86,7 +86,9 @@
                                         </span>
                                     </div>
                                     <div class="post-card-content-title">
-                                        <a href="post-detail.html" class="text-dark">
+                                        <a asp-action="GetPostDetail"
+                                           asp-route-id="@post.Id"
+                                           class="text-dark">
                                             <h4>
                                                 @post.Title
                                             </h4>
