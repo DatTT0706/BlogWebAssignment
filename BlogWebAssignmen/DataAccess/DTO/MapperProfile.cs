@@ -14,6 +14,7 @@ namespace DataAccess.DTO
         {
             CreateMap<DataAccess.Models.Category, CategoryDTO>();
             CreateMap<DataAccess.Models.Post, PostDTO>();
+            CreateMap<DataAccess.Models.Tag, TagDTO>();
         }
     }
 }
