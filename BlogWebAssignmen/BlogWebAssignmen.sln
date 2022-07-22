@@ -5,9 +5,11 @@ VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogWebAssignment_API", "BlogWebAssignment_API\BlogWebAssignment_API.csproj", "{B6620966-55E0-4DF8-8325-6DAC1C1C87BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinessObject", "BussinessObject\BussinessObject.csproj", "{56D50EAA-108D-451A-B966-92C329177842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BussinessObject", "BussinessObject\BussinessObject.csproj", "{56D50EAA-108D-451A-B966-92C329177842}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{C533A65D-9EC2-4B31-AAF9-7E761A0494FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{C533A65D-9EC2-4B31-AAF9-7E761A0494FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogWebAssignmentClient", "BlogWebAssignmentClient\BlogWebAssignmentClient.csproj", "{4833482E-7303-4DA3-BDA0-C4CC8C8911E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C533A65D-9EC2-4B31-AAF9-7E761A0494FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C533A65D-9EC2-4B31-AAF9-7E761A0494FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C533A65D-9EC2-4B31-AAF9-7E761A0494FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4833482E-7303-4DA3-BDA0-C4CC8C8911E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4833482E-7303-4DA3-BDA0-C4CC8C8911E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4833482E-7303-4DA3-BDA0-C4CC8C8911E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4833482E-7303-4DA3-BDA0-C4CC8C8911E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
