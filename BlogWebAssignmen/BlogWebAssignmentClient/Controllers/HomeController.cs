@@ -48,7 +48,6 @@ namespace BlogWebAssignmentClient.Controllers
                 var readTask = result.Content.ReadFromJsonAsync<PostDTO>();
                 readTask.Wait();
                 post = readTask.Result;
-                ;
             }
 
             return View("PostDetail", post);
