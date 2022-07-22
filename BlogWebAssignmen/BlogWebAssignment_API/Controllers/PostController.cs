@@ -75,11 +75,16 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpPost("PostByTag")]
-        public async Task<ActionResult> GetPostByTag(Tag tagList) 
+        public async Task<ActionResult> GetPostByTag(List<Tag> tagList) 
         {
-            List<PostDTO> posts = await _context.Posts.Where(p => p.).ProjectTo<PostDTO>(config).ToListAsync();
-            if (posts == null) return NotFound();
-            return Ok(GetPostPage(10, page, posts));
+            List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync(); ;
+            foreach (var tag in tagList) {
+                List<PostTag> mapping = await _context.PostTags.Where(pt => pt.TagId == tag.Id).ToListAsync();
+                List<int> input = new List<int>();
+                mapping.ForEach(pt => input.Add(pt.PostId));
+                result = SortPostByTag(result, input).ToList();
+            }
+            return Ok(GetPostPage(10, page, result));
         }
 
         [HttpDelete("id")]
@@ -116,6 +121,19 @@ namespace BlogWebAssignment_API.Controllers
             int startIndex = (index - 1) * 10;
             var postInPage = input.Skip(startIndex).Take(pageSize);
             return postInPage;
+        }
+
+        private IEnumerable<PostDTO> SortPostByTag(IEnumerable<PostDTO> posts,List<int> idList) 
+        {
+            List<PostDTO> postList = new List<PostDTO>();
+            foreach(var post in posts)
+            {
+                if (idList.Contains(post.Id))
+                {
+                    postList.Add(post);
+                }
+            }
+            return postList;
         }
 
     }

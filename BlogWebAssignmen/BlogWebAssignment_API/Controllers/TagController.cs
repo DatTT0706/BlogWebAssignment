@@ -47,7 +47,7 @@ namespace BlogWebAssignment_API.Controllers
             }
         }
 
-        [HttpGet("{id]")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Tag>> GetTagById(string id) 
         {
             try
