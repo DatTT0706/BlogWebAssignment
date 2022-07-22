@@ -1,7 +1,19 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model DataAccess.DTO.PostDTO
 @{
-    Layout = "_Layout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<section class="post-detail container mx-auto text-center">
+    <a href="" class="text-primary">Game</a>
+    <h3 class="text-center">@Model.Title</h3>
+    <span>
+        <i>@Model.Summary</i>
+    </span>
 
+    <div class="post-detail-content">
+        <p>@Model.Content</p>
+    </div>
+
+</section>
