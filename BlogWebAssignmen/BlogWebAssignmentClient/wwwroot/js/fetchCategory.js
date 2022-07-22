@@ -19,7 +19,7 @@ async function displayCategory(data = []) {
     let tagListContainer = await document.querySelector(".tags-list");
     await data.forEach((item) => {
         let a = document.createElement("a");
-        a.href = "https://www.google.com";
+        
         a.className = "link-dark custom-tags";
         a.innerHTML = `<span>${item["title"]}</span>`;
         tagListContainer.appendChild(a);
@@ -31,7 +31,8 @@ async function displayCategoryNavbar(data = []) {
     await data.forEach((item) => {
         let li = document.createElement("li");
         li.className = "nav-item";
-        li.innerHTML = `<a class="nav-link text-dark" href="http://localhost:8080">${item["title"]}</a>`;
+        li.innerHTML = `<a class="nav-link text-dark" 
+href="http://localhost:8080">${item["title"]}</a>`;
         ul.appendChild(li);
     })
 }

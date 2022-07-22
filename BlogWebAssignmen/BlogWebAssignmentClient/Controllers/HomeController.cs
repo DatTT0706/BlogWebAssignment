@@ -1,24 +1,37 @@
-﻿using BlogWebAssignmentClient.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.Json;
 using System.Threading.Tasks;
+using BlogWebAssignmentClient.Models;
+using DataAccess.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlogWebAssignmentClient.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly HttpClient _client;
+        public readonly string PostApi = "https://localhost:5001/api/Post";
 
         public HomeController()
         {
+            _client = new HttpClient();
+            var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+            _client.DefaultRequestHeaders.Accept.Add(contentType);
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var response = await _client.GetAsync(PostApi);
+            var strData = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var postDtos = JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
+            return View(postDtos);
         }
 
         public IActionResult Privacy()
