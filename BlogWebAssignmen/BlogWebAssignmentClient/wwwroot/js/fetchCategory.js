@@ -22,6 +22,7 @@ async function displayCategory(data = []) {
     let tagListContainer = await document.querySelector(".tags-list");
     await data.forEach((item) => {
         let a = document.createElement("a");
+        a.href = ""
         a.className = "link-dark custom-tags";
         a.innerHTML = `<span>${item["title"]}</span>`;
         tagListContainer.appendChild(a);
