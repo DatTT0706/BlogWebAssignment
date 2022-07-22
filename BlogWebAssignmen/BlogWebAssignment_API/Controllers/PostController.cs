@@ -16,7 +16,6 @@ namespace BlogWebAssignment_API.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-
         private readonly ILogger<PostController> _logger;
         private MapperConfiguration config;
         private readonly PRN231_BlogContext _context;
@@ -41,6 +40,7 @@ namespace BlogWebAssignment_API.Controllers
             {
                 return NotFound(); // Response with status code: 404
             }
+
             return Ok(posts);
         }
 
@@ -49,8 +49,7 @@ namespace BlogWebAssignment_API.Controllers
         {
             List<PostDTO> posts = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
             if (posts == null) return NotFound();
-            return Ok(GetPostPage(10,page,posts));
-
+            return Ok(GetPostPage(10, page, posts));
         }
 
         [HttpGet("id")]
@@ -62,28 +61,33 @@ namespace BlogWebAssignment_API.Controllers
             {
                 return NotFound(); // Response with status code: 404
             }
+
             return Ok(post);
         }
 
 
         [HttpPost("title")]
-        public async Task<ActionResult> SearchPostByName(string title,int page)
+        public async Task<ActionResult> SearchPostByName(string title, int page)
         {
-            List<PostDTO> posts = await _context.Posts.Where(p => p.Title.Contains(title)).ProjectTo<PostDTO>(config).ToListAsync();
+            List<PostDTO> posts = await _context.Posts.Where(p => p.Title.Contains(title)).ProjectTo<PostDTO>(config)
+                .ToListAsync();
             if (posts == null) return NotFound();
             return Ok(GetPostPage(10, page, posts));
         }
 
         [HttpPost("PostByTag")]
-        public async Task<ActionResult> GetPostByTag(List<Tag> tagList) 
+        public async Task<ActionResult> GetPostByTag(List<Tag> tagList)
         {
-            List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync(); ;
-            foreach (var tag in tagList) {
+            List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
+            
+            foreach (var tag in tagList)
+            {
                 List<PostTag> mapping = await _context.PostTags.Where(pt => pt.TagId == tag.Id).ToListAsync();
                 List<int> input = new List<int>();
                 mapping.ForEach(pt => input.Add(pt.PostId));
                 result = SortPostByTag(result, input).ToList();
             }
+
             return Ok(GetPostPage(10, page, result));
         }
 
@@ -123,18 +127,18 @@ namespace BlogWebAssignment_API.Controllers
             return postInPage;
         }
 
-        private IEnumerable<PostDTO> SortPostByTag(IEnumerable<PostDTO> posts,List<int> idList) 
+        private IEnumerable<PostDTO> SortPostByTag(IEnumerable<PostDTO> posts, List<int> idList)
         {
             List<PostDTO> postList = new List<PostDTO>();
-            foreach(var post in posts)
+            foreach (var post in posts)
             {
                 if (idList.Contains(post.Id))
                 {
                     postList.Add(post);
                 }
             }
+
             return postList;
         }
-
     }
 }
