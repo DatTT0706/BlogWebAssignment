@@ -21,9 +21,8 @@ namespace DataAccess.DTO
         public DateTime RegisteredAt { get; set; }
         public DateTime LastLogin { get; set; }
         public string Intro { get; set; }
-        public string Profile { get; set; }
+        public string Proflie { get; set; }
         public int RoleId { get; set; }
         public RoleDTO Role{ get; set; }
-        public virtual ICollection<PostDTO> Posts { get; set; }
     }
 }

@@ -49,7 +49,11 @@ namespace BlogWebAssignmentClient.Controllers
 
             int userId = GetUserId();
 
+            response = await _client.GetAsync("https://localhost:5001/api/Post/Author/"+id);
+            strData = await response.Content.ReadAsStringAsync();
+            var postDtos = JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
             ViewData["Token"] = userId;
+            ViewData["Posts"] = postDtos;
             return View(userDTO);
         }
 
@@ -71,7 +75,27 @@ namespace BlogWebAssignmentClient.Controllers
                 return RedirectToAction("Index", "LoginController");
             }
         }
+        [HttpPost]
+        public ActionResult Edit(UserDTO user)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:5001/api/User?id=" + user.Id.ToString());
 
+                //HTTP POST
+                var putTask = client.PutAsJsonAsync<UserDTO>("", user);
+                putTask.Wait();
+
+                var result = putTask.Result;
+                
+                if (result.IsSuccessStatusCode)
+                {
+                    return Redirect("/User/Index/" + user.Id.ToString());
+                }
+            }
+            ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+            return View(user);
+        }
         public int GetUserId()
         {
             var tokenHandler = new JwtSecurityTokenHandler();

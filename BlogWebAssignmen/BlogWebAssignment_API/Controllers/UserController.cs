@@ -102,7 +102,7 @@ namespace BlogWebAssignment_API.Controllers
                     return NotFound();
                 }
                 _context.Entry<User>(u).State = EntityState.Detached;
-                _context.Users.Update(u);
+                _context.Users.Update(user);
                 _context.SaveChanges();
                 return Ok();
             }

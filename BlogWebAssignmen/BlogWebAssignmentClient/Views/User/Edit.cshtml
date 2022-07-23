@@ -35,12 +35,42 @@
                     <div class="card-body">
                         <form asp-action="Edit" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Id" class="control-label" hidden></label>
+                                <input asp-for="Id" class="form-control" hidden />
+                                <span asp-validation-for="Id" class="text-danger" hidden></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="RegisteredAt" class="control-label" hidden></label>
+                                <input asp-for="RegisteredAt" class="form-control" hidden />
+                                <span asp-validation-for="RegisteredAt" class="text-danger" hidden></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastLogin" class="control-label" hidden></label>
+                                <input asp-for="LastLogin" class="form-control" hidden />
+                                <span asp-validation-for="LastLogin" class="text-danger" hidden></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="RoleId" class="control-label" hidden></label>
+                                <input asp-for="RoleId" class="form-control" hidden />
+                                <span asp-validation-for="RoleId" class="text-danger" hidden></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PasswordHash" class="control-label" hidden></label>
+                                <input asp-for="PasswordHash" class="form-control" type="password" hidden />
+                                <span asp-validation-for="PasswordHash" class="text-danger" hidden></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Proflie" class="control-label" hidden></label>
+                                <input asp-for="Proflie" class="form-control" hidden />
+                                <span asp-validation-for="Proflie" class="text-danger" hidden></span>
+                            </div>
                             <!-- Form Row-->
                             <div class="row gx-3 mb-3">
                                 <!-- Form Group (first name)-->
                                 <div class="col-md-4">
                                     <label asp-for="FirstName" class="small mb-1" for="inputFirstName">First name</label>
-                                    <input asp-for="FirstName" class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="Valerie">
+                                    <input asp-for="FirstName" class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name">
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </div>
                                 <!-- Form Group (middle name)-->
@@ -78,14 +108,8 @@
                                 <input asp-for="Intro" class="form-control" id="Intro" type="text" placeholder="Introduce yourself">
                                 <span asp-validation-for="Intro" class="text-danger"></span>
                             </div>
-                            <!-- Form Group (profile)-->
-                            <div class="mb-3">
-                                <label asp-for="Profile" class="small mb-1" for="profile">Profile</label>
-                                <textarea asp-for="Profile" class="form-control" id="profile" placeholder="Introduce yourself"></textarea>
-                                <span asp-validation-for="Profile" class="text-danger"></span>
-                            </div>
                             <!-- Save changes button-->
-                            <button class="btn btn-primary" type="button">Save changes</button>
+                            <button class="btn btn-primary" type="submit">Save changes</button>
                         </form>
                     </div>
                 </div>
