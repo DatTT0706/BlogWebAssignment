@@ -2,11 +2,12 @@
 
 .post-detail {
     width: 700px;
+    font-family: $primary-font-serif;
   &-header {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    font-family: $primary-font-serif;
+
   }
   &-content {
     font-size: 1.4rem;
