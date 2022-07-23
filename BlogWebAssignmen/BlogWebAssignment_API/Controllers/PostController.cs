@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
 namespace BlogWebAssignment_API.Controllers
@@ -21,16 +22,19 @@ namespace BlogWebAssignment_API.Controllers
         private readonly ILogger<PostController> _logger;
         private MapperConfiguration config;
         private readonly PRN231_BlogContext _context;
+        private readonly IWebHostEnvironment _environment;
         private IMapper _mapper;
 
         public PostController(ILogger<PostController> logger,
-            PRN231_BlogContext context)
+            PRN231_BlogContext context,
+            IWebHostEnvironment environment)
         {
             _context = context;
             config = new MapperConfiguration(cfg =>
                 cfg.AddProfile(new MapperProfile()));
             _mapper = config.CreateMapper();
             _logger = logger;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -172,41 +176,25 @@ namespace BlogWebAssignment_API.Controllers
             return Ok(posts);
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> SavePost(Post post,IFormFile Image) 
-        //{
-        //    try
-        //    {
-        //        //Checking if the user uploaded the image correctly
-        //        if (Image == null || Image.Length == 0)
-        //        {
-        //            return Content("File not selected");
-        //        }
-        //        //Set the image location under WWWRoot folder. For example if you have the folder name image then you should set "image" in "FolderNameOfYourWWWRoot"
-        //        var path = Path.Combine(_environment.WebRootPath, "FolderNameOfYourWWWRoot", Image.FileName);
-        //        //Saving the image in that folder 
-        //        using (FileStream stream = new FileStream(path, FileMode.Create))
-        //        {
-        //            await Image.CopyToAsync(stream);
-        //            stream.Close();
-        //        }
-
-        //        //Setting Image name in your product DTO
-        //        //If you want to save image name then do like this But if you want to save image location then write assign the path 
-        //        pro.ImageUrl = Image.FileName;
-
-        //        var productEntity = _mapper.Map<Product>(pro);
-        //        var newProduct = _SqlService.AddProduct(productEntity);
-
-        //        var productForReturn = _mapper.Map<ProductDto>(newProduct);
-
-        //        return CreatedAtRoute("GetProduct", new { id = productForReturn.ProId },
-        //            productForReturn);
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex}");
-        //    }
-        //}
+        [HttpPost]
+        public async Task<ActionResult> SavePost(Post post, IFormFile image)
+        {
+            try
+            {
+                string filePath = Path.Combine(_environment.ContentRootPath, "image", image.FileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(stream);
+                }
+                post.MetaTitle = filePath;
+                await _context.Posts.AddAsync(post);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
     }
 }
