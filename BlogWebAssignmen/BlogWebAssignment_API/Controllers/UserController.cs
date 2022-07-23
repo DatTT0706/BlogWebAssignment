@@ -65,10 +65,11 @@ namespace BlogWebAssignment_API.Controllers
             return Ok(users);
         }
         [HttpPost("Login")]
-        public IActionResult Post(string email, string pass)
+        public IActionResult Post(LoginDTO loginDTO)
         {
             UserDTO user;
-            user = _context.Users.ProjectTo<UserDTO>(config).FirstOrDefault(u => u.Email == email && u.PasswordHash == pass);
+            user = _context.Users.ProjectTo<UserDTO>(config).FirstOrDefault(u => u.Email ==loginDTO.Email  && u.PasswordHash == loginDTO.Password);
+            user.Role = _context.Roles.ProjectTo<RoleDTO>(config).FirstOrDefault(r => r.RoleId == user.RoleId);
             if (user == null)
             {
                 return NotFound();
