@@ -39,7 +39,7 @@
                     <button type="submit" class="btn btn-light">Send</button>
                 </form>
             </div>
-            <div class="comment-tree">
+            <div class="comment-tree" id="commentTree">
                 <div class="comment-node">
                     <div class="comment-node-header mb-3">
                         <div class="avatar ">
@@ -53,9 +53,29 @@
                     <div class="comment-node-content">
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquam animi culpa deleniti dolorum eius et, facere, fugit harum itaque numquam quis quo. Autem cum fugit omnis qui quidem temporibus!</p>
                     </div>
+                    <div class="comment-node-action">
+                        <button class="btn btn-light px-2 py-1">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        <button class="btn btn-light px-2 py-1">Reply</button>
+                    </div>
                 </div>
             </div>
         </section>
     </div>
 </section>
-<script src="~/js/comment.js"></script>
+<script type="text/javascript">
+async function getCommentById(id = 0) {
+    if (id !== 0) {
+        await fetch(`https://localhost:5001/api/Comment/postid?postid=${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+            }, method: "get"
+        }).then(res => res.json())
+            .then(data => console.table(data)).catch(e => console.error(e));
+    } else {
+        console.log("There is no comment here");
+        }
+}
+getCommentById(@Model.Id);
+</script>
