@@ -60,11 +60,6 @@
                                 <input asp-for="PasswordHash" class="form-control" type="password" hidden />
                                 <span asp-validation-for="PasswordHash" class="text-danger" hidden></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Proflie" class="control-label" hidden></label>
-                                <input asp-for="Proflie" class="form-control" hidden />
-                                <span asp-validation-for="Proflie" class="text-danger" hidden></span>
-                            </div>
                             <!-- Form Row-->
                             <div class="row gx-3 mb-3">
                                 <!-- Form Group (first name)-->
@@ -100,13 +95,17 @@
                                     <input asp-for="Mobile" class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number">
                                     <span asp-validation-for="Mobile" class="text-danger"></span>
                                 </div>
-
                             </div>
                             <!-- Form Group (intro)-->
                             <div class="mb-3">
                                 <label asp-for="Intro" class="small mb-1" for="Intro">Intro</label>
                                 <input asp-for="Intro" class="form-control" id="Intro" type="text" placeholder="Introduce yourself">
                                 <span asp-validation-for="Intro" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Proflie" class="control-label" ></label>
+                                <textarea asp-for="Proflie" class="form-control" placeholder="Your Profile"></textarea>
+                                <span asp-validation-for="Proflie" class="text-danger" ></span>
                             </div>
                             <!-- Save changes button-->
                             <button class="btn btn-primary" type="submit">Save changes</button>
