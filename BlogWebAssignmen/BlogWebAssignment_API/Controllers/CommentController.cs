@@ -20,7 +20,8 @@ namespace BlogWebAssignment_API.Controllers
 
         public CommentController(PRN231_BlogContext context)
         {
-            this.config = config;
+            this.config = new MapperConfiguration(cfg =>
+                cfg.AddProfile(new MapperProfile()));
             _context = context;
             config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = config.CreateMapper();
