@@ -39,7 +39,7 @@
                     <button type="submit" class="btn btn-light">Send</button>
                 </form>
             </div>
-            <div class="comment-tree">
+            <div class="comment-tree" id="commentTree">
                 <div class="comment-node">
                     <div class="comment-node-header mb-3">
                         <div class="avatar ">
@@ -64,4 +64,18 @@
         </section>
     </div>
 </section>
-<script src="~/js/comment.js"></script>
+<script type="text/javascript">
+async function getCommentById(id = 0) {
+    if (id !== 0) {
+        await fetch(`https://localhost:5001/api/Comment/postid?postid=${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+            }, method: "get"
+        }).then(res => res.json())
+            .then(data => console.table(data)).catch(e => console.error(e));
+    } else {
+        console.log("There is no comment here");
+        }
+}
+getCommentById(@Model.Id);
+</script>
