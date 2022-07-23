@@ -74,7 +74,7 @@ namespace BlogWebAssignment_API.Controllers
             return Ok(GetPostPage(10, page, posts));
         }
 
-        [HttpPost("PostByCategoryAndTag")]
+        [HttpPost("PostByCategoryAndTag/{page}")]
         public async Task<ActionResult> GetByTagCategory(int page,[FromQuery]List<CategoryDTO>? categoryList, [FromQuery] List<TagDTO> tagList)
         {
             List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
