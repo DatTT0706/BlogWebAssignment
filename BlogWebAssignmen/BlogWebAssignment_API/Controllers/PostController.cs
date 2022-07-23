@@ -171,24 +171,20 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SavePost(Post post, IFormFile image)
+        public IActionResult Post([FromBody] Post post)
         {
             try
             {
-                string filePath = Path.Combine(_environment.ContentRootPath, "image", image.FileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await image.CopyToAsync(stream);
-                }
-
-                post.MetaTitle = image.FileName;
-                await _context.Posts.AddAsync(post);
-                await _context.SaveChangesAsync();
-                return Ok();
+                post.CreatedAt = DateTime.Now;
+                post.UpdatedAt = DateTime.Now;
+                post.PublishedAt = DateTime.Now;
+                _context.Posts.Add(post);
+                _context.SaveChanges();
+                return Ok(post);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, $"Internal server error: {ex}");
+                return BadRequest();
             }
         }
     }

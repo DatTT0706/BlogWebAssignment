@@ -72,7 +72,7 @@ namespace BlogWebAssignmentClient.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "LoginController");
+                return RedirectToAction("Index", "Login");
             }
         }
         [HttpPost]

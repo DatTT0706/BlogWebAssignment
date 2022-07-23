@@ -4,10 +4,23 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model DataAccess.Models.User
-<form action="">
-    <input type="text" hidden value="">
-    <div contenteditable="true" placeholder="Title...">
-        
+@model DataAccess.DTO.PostDTO
+<form action="PostContent" method="post">
+    <div class="mb-3">
+        <label asp-for="Title" class="small mb-1" for="Intro">Intro</label>
+        <input asp-for="Title" class="form-control" id="Intro" type="text" placeholder="Title">
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
+    <div class="mb-3">
+        <label asp-for="Summary" class="small mb-1" for="Intro">Summary</label>
+        <input asp-for="Summary" class="form-control" id="Intro" type="text" placeholder="Summary">
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Content" class="small mb-1" for="Content">Intro</label>
+        <textarea asp-for="Content" class="form-control" id="Content" placeholder="Content"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+    <button class="btn btn-primary" type="submit">Post!</button>
+
 </form>
