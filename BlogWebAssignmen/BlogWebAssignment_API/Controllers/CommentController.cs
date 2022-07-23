@@ -30,7 +30,11 @@ namespace BlogWebAssignment_API.Controllers
         [HttpGet("postid")]
         public async Task<ActionResult> GetCommentByPost(int postid)
         {
-            var comments = await _context.PostComments.Where(c => c.PostId == postid).ProjectTo<CommentDTO>(config).ToListAsync();
+            var comments = await _context.PostComments
+                .Include(x => x.User)
+                .Where(c => c.PostId == postid)
+                .ProjectTo<CommentDTO>(config)
+                .ToListAsync();
             if (comments == null || comments.Count == 0) return NotFound();
 
             return Ok(comments);
