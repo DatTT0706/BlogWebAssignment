@@ -25,7 +25,6 @@ namespace DataAccess.Models
         public string Mobile { get; set; }
         [Required, StringLength(50)]
         public string Email { get; set; }
-        [Required, StringLength(50)]
         public string PasswordHash { get; set; }
         public DateTime? RegisteredAt { get; set; }
         public DateTime? LastLogin { get; set; }

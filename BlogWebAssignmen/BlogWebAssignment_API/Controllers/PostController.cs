@@ -156,5 +156,12 @@ namespace BlogWebAssignment_API.Controllers
                 .ToListAsync();
             return Ok(postCategoryDto);
         }
+
+        [HttpGet("Post/Author/{authorId}")]
+        public async Task<ActionResult> GetPostByAuthor(int authorId)
+        {
+            var posts = await _context.Posts.Where(p => p.AuthorId == authorId).ProjectTo<PostDTO>(config).ToListAsync();
+            return Ok(posts);
+        }
     }
 }

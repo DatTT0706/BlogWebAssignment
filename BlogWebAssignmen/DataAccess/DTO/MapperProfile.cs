@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BussinessModel;
+using DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +12,12 @@ namespace DataAccess.DTO
     {
         public MapperProfile()
         {
-            CreateMap<DataAccess.Models.Category, CategoryDTO>();
-            CreateMap<DataAccess.Models.Post, PostDTO>();
-            CreateMap<DataAccess.Models.Tag, TagDTO>();
-            CreateMap<DataAccess.Models.User, UserDTO>();
+            CreateMap<Category, CategoryDTO>();
+            CreateMap<Tag, TagDTO>();
+            CreateMap<User, UserDTO>();
+            CreateMap<Post, PostDTO>();
             CreateMap<PostComment, CommentDTO>();
+
         }
     }
 }

@@ -17,7 +17,7 @@ namespace DataAccess.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        public int? AuthorId { get; set; }
+        public int AuthorId { get; set; }
         public int? ParentId { get; set; }
         [Required,StringLength(100)]
         public string Title { get; set; }
@@ -28,7 +28,6 @@ namespace DataAccess.Models
         [Required, StringLength(255)]
         public string Summary { get; set; }
         public int? Published { get; set; }
-        [Required]
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
