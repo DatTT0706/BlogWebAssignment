@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using BlogWebAssignmentClient.Models;
 using DataAccess.DTO;
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogWebAssignmentClient.Controllers
@@ -37,7 +38,7 @@ namespace BlogWebAssignmentClient.Controllers
             return View(postDtos);
         }
 
-        public ActionResult OnGetPostDetail(int id)
+        public async Task<ActionResult> OnGetPostDetail(int id)
         {
             PostDTO post = null;
             var responseTask = _client.GetAsync($"id?id={id.ToString()}");
@@ -52,7 +53,19 @@ namespace BlogWebAssignmentClient.Controllers
 
             return View("PostDetail", post);
         }
-        
+
+        public async Task<ActionResult> OnGetPostByCategoryId(int id)
+        {
+            var response = await _client.GetAsync($"PostCategory/{id}");
+            var strData = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var postDtos = JsonSerializer.Deserialize<List<PostCategory>>(strData, options);
+            return View("CategoryDetail", postDtos);
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -5,11 +5,11 @@ namespace BlogWebAssignmentClient.Controllers
 {
     public class PostContentController : Controller
     {
-        public User User { get; set; }
+        public User Author { get; set; }
 
         public IActionResult Index()
         {
-            return View(User);
+            return View(Author);
         }
     }
 }

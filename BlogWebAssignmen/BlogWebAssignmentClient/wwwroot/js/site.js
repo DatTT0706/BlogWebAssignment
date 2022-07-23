@@ -3,8 +3,11 @@
     await data.forEach((item) => {
         let li = document.createElement("li");
         li.className = "nav-item";
-        li.innerHTML = `<a class="nav-link text-dark" 
-                asp-action="Index" asp-controller="Home">${item["title"]}</a>`;
+        let a = document.createElement("a");
+        a.className = "nav-link text-dark";
+        a.href = `/Home/OnGetPostByCategoryId/${item["id"]}`;
+        a.innerText = `${item["title"]}`
+        li.appendChild(a);
         ul.appendChild(li);
     })
 }
