@@ -1,0 +1,70 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="post-detail container">
+    <section class="post-detail-comment-section  my-2 pb-3"
+             id="comment-section">
+        <div id="comment-form">
+            <form action="" class="comment-form">
+                <input class="comment-data border-0"
+                       id="commentData"
+                       placeholder="Enter keyword bitch: "/>
+                <button type="submit" class="btn btn-light">Search</button>
+            </form>
+        </div>
+        <div class="post-card flex-row mb-5">
+            <div class="post-card-image-wrapper col-md-4">
+                <img class="post-card-image"
+                     src="https://images.unsplash.com/photo-1573592371950-348a8f1d9f38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1949&q=80"
+                     alt="">
+            </div>
+            <div class="post-card-content-wrapper col-md-8">
+                <div class="post-card-content">
+                    <div class="post-card-content-tag">
+                        <a asp-action="Index" asp-controller="Tag">Games</a>
+                        <span class="position-absolute end-0 bookmark">
+                            <i class="fa-regular fa-bookmark"
+                               style="font-size: 24px">
+                            </i>
+                        </span>
+                    </div>
+                    <div class="post-card-content-title">
+                        <a asp-action="OnGetPostDetail" asp-controller="Home"
+                           asp-route-id="1"
+                           class="text-dark">
+                            <h4>
+                                Lorem ipsum dolor sit amet.
+                            </h4>
+                        </a>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda atque exercitationem facilis fuga, in iste, iure iusto laborum libero magni maxime nostrum quasi quod recusandae reprehenderit tenetur ut vitae, voluptatum!</p>
+                    </div>
+                    <div class="post-card-content-author position-relative">
+                        <img src="" alt="Author">
+                        <a href="" class="text-dark">
+                            <span>Lorem ipsum dolor.</span>
+                            <span class="date-posted">| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ex?</span>
+                        </a>
+                        @* <div class="post-card-content-action d-inline-block"> *@
+                        @*     <span class="post-card-content-action-comment"> *@
+                        @*         <i class="fa-regular fa-message" *@
+                        @*            style="font-size: 18px"> *@
+                        @*         </i> *@
+                        @*         <span>10</span> *@
+                        @*     </span> *@
+                        @*     <span class="post-card-content-action-like"> *@
+                        @*         <i class="fa-regular fa-heart" *@
+                        @*            style="font-size: 18px"> *@
+                        @*         </i> *@
+                        @*         <span>10</span> *@
+                        @*     </span> *@
+                        @* </div> *@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
