@@ -75,7 +75,7 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpPost("PostByCategoryAndTag")]
-        public async Task<ActionResult> GetByTagCategory(int page,[FromQueryAttribute]List<CategoryDTO>? categoryList, [FromQueryAttribute] List<TagDTO> tagList)
+        public async Task<ActionResult> GetByTagCategory(int page,[FromQuery]List<CategoryDTO>? categoryList, [FromQuery] List<TagDTO> tagList)
         {
             List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
             bool isCategoryListEmpty = categoryList == null || categoryList.Count == 0;

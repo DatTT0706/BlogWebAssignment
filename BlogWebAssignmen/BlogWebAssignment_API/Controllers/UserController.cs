@@ -64,7 +64,7 @@ namespace BlogWebAssignment_API.Controllers
             }
             return Ok(users);
         }
-        [HttpPost]
+        [HttpPost("Login")]
         public IActionResult Post(string email, string pass)
         {
             UserDTO user;
@@ -76,7 +76,7 @@ namespace BlogWebAssignment_API.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public IActionResult Post([FromBody] User user)
         {
             try
