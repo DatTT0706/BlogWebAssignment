@@ -58,18 +58,17 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveComment(CommentDTO comment)
+        public async Task<ActionResult> SaveComment(PostComment comment)
         {
             try
             {
-                _context.Add(comment);
+                _context.PostComments.Add(comment);
                 await _context.SaveChangesAsync();
                 return Ok();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message.ToString());
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
