@@ -74,18 +74,36 @@ namespace BlogWebAssignment_API.Controllers
             return Ok(GetPostPage(10, page, posts));
         }
 
-        [HttpPost("PostByTag")]
-        public async Task<ActionResult> GetPostByTag(List<Tag> tagList) 
+        [HttpPost("PostByCategoryAndTag")]
+        public async Task<ActionResult> GetByTagCategory(int page,List<CategoryDTO>? categoryList, List<TagDTO> tagList)
         {
-            List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync(); ;
-            foreach (var tag in tagList) {
-                List<PostTag> mapping = await _context.PostTags.Where(pt => pt.TagId == tag.Id).ToListAsync();
-                List<int> input = new List<int>();
-                mapping.ForEach(pt => input.Add(pt.PostId));
-                result = SortPostByTag(result, input).ToList();
+            List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
+            bool isCategoryListEmpty = categoryList == null || categoryList.Count == 0;
+            if (!isCategoryListEmpty)
+            {
+                foreach (var category in categoryList)
+                {
+                    List<PostCategory> mapping = await _context.PostCategories.Where(pc => pc.CategoryId == category.Id).ToListAsync();
+                    List<int> input = mapping.Select(pc => pc.PostId).ToList();
+                    result = SortPostList(result, input).ToList();
+                }
             }
-            return Ok(GetPostPage(10, page, result));
+            
+            bool isTagListEmpty = tagList == null || tagList.Count == 0;
+            if (!isTagListEmpty)
+            {
+                foreach (var tag in tagList)
+                {
+                    List<PostTag> mapping = await _context.PostTags.Where(pc => pc.TagId == tag.Id).ToListAsync();
+                    List<int> input = mapping.Select(pc => pc.PostId).ToList();
+                    result = SortPostList(result, input).ToList();
+                }
+            }
+            int pageSize = 10;
+
+            return Ok(GetPostPage(pageSize,page, result));
         }
+
 
         [HttpDelete("id")]
         public IActionResult Delete(int id)
@@ -123,18 +141,10 @@ namespace BlogWebAssignment_API.Controllers
             return postInPage;
         }
 
-        private IEnumerable<PostDTO> SortPostByTag(IEnumerable<PostDTO> posts,List<int> idList) 
+        private IEnumerable<PostDTO> SortPostList(IEnumerable<PostDTO> posts,List<int> idList) 
         {
-            List<PostDTO> postList = new List<PostDTO>();
-            foreach(var post in posts)
-            {
-                if (idList.Contains(post.Id))
-                {
-                    postList.Add(post);
-                }
-            }
+            List<PostDTO> postList = posts.Where(p => idList.Contains(p.Id)).ToList();
             return postList;
         }
-
     }
 }
