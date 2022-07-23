@@ -52,7 +52,7 @@ namespace BlogWebAssignmentClient.Controllers
 
             return View("PostDetail", post);
         }
-
+        
         public IActionResult Privacy()
         {
             return View();

@@ -16,7 +16,6 @@ namespace BlogWebAssignment_API.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-
         private readonly ILogger<PostController> _logger;
         private MapperConfiguration config;
         private readonly PRN231_BlogContext _context;
@@ -41,6 +40,7 @@ namespace BlogWebAssignment_API.Controllers
             {
                 return NotFound(); // Response with status code: 404
             }
+
             return Ok(posts);
         }
 
@@ -49,8 +49,7 @@ namespace BlogWebAssignment_API.Controllers
         {
             List<PostDTO> posts = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
             if (posts == null) return NotFound();
-            return Ok(GetPostPage(10,page,posts));
-
+            return Ok(GetPostPage(10, page, posts));
         }
 
         [HttpGet("id")]
@@ -62,14 +61,16 @@ namespace BlogWebAssignment_API.Controllers
             {
                 return NotFound(); // Response with status code: 404
             }
+
             return Ok(post);
         }
 
 
         [HttpPost("title")]
-        public async Task<ActionResult> SearchPostByName(string title,int page)
+        public async Task<ActionResult> SearchPostByName(string title, int page)
         {
-            List<PostDTO> posts = await _context.Posts.Where(p => p.Title.Contains(title)).ProjectTo<PostDTO>(config).ToListAsync();
+            List<PostDTO> posts = await _context.Posts.Where(p => p.Title.Contains(title)).ProjectTo<PostDTO>(config)
+                .ToListAsync();
             if (posts == null) return NotFound();
             return Ok(GetPostPage(10, page, posts));
         }

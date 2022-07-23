@@ -3,7 +3,7 @@
 
 async function getData() {
     //fetch fetch data from api
-    await fetch("https://localhost:5001/api/Category", {
+    await fetch("https://localhost:5001/api/Tag", {
         headers: {
             "Content-Type": "application/json"
         }, method: "get"
