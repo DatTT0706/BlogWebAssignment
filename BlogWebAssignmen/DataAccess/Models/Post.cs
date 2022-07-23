@@ -19,19 +19,15 @@ namespace DataAccess.Models
         [Required]
         public int AuthorId { get; set; }
         public int? ParentId { get; set; }
-        [Required,StringLength(100)]
         public string Title { get; set; }
-        [Required, StringLength(150)]
         public string MetaTitle { get; set; }
-        [Required, StringLength(150)]
         public string Slug { get; set; }
-        [Required, StringLength(255)]
         public string Summary { get; set; }
         public int? Published { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
-        [Required]
+ 
         public string Content { get; set; }
 
         public virtual User Author { get; set; }
