@@ -20,7 +20,6 @@ namespace BlogWebAssignment_API.Controllers
         private MapperConfiguration config;
         private readonly PRN231_BlogContext _context;
         private IMapper mapper;
-        int page = 0;
 
         public PostController(ILogger<PostController> logger,
             PRN231_BlogContext context)
@@ -76,7 +75,7 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpPost("PostByCategoryAndTag")]
-        public async Task<ActionResult> GetByTagCategory(int page,List<CategoryDTO>? categoryList, List<TagDTO> tagList)
+        public async Task<ActionResult> GetByTagCategory(int page,[FromQueryAttribute]List<CategoryDTO>? categoryList, [FromQueryAttribute] List<TagDTO> tagList)
         {
             List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
             bool isCategoryListEmpty = categoryList == null || categoryList.Count == 0;
