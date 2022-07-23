@@ -44,7 +44,9 @@
                         Login
                     </a>
                     <a class="btn btn-dark text-white" asp-controller="Register"
-                       asp-action="Index">Register</a>
+                       asp-action="Index">
+                        Register
+                    </a>
                     @if (1 == 1)
                     {
                         <a class="btn btn-dark text-white" asp-controller="PostContent"
@@ -92,6 +94,7 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/ccd1962523.js" crossorigin="anonymous"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/comment.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", false)
 </body>
 </html>
