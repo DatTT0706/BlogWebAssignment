@@ -46,7 +46,7 @@ namespace BlogWebAssignment_API.Controllers
         public IActionResult GetUserById(int id)
         {
             UserDTO user;
-            user = _context.Users.ProjectTo<UserDTO>(config).FirstOrDefault(u => u.Id == id);
+            user = _context.Users.Include(u => u.Role).ProjectTo<UserDTO>(config).FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -82,6 +82,8 @@ namespace BlogWebAssignment_API.Controllers
         {
             try
             {
+                user.RegisteredAt = DateTime.Now;
+                user.LastLogin = DateTime.Now;
                 _context.Users.Add(user);
                 _context.SaveChanges();
                 return Ok(user);
