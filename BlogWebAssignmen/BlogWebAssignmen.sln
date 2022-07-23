@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BussinessObject", "Bussines
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{C533A65D-9EC2-4B31-AAF9-7E761A0494FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogWebAssignmentClient", "BlogWebAssignmentClient\BlogWebAssignmentClient.csproj", "{4833482E-7303-4DA3-BDA0-C4CC8C8911E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogWebAssignmentClient", "BlogWebAssignmentClient\BlogWebAssignmentClient.csproj", "{4833482E-7303-4DA3-BDA0-C4CC8C8911E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

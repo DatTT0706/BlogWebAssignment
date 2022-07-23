@@ -12,7 +12,7 @@
         <div class=" mx-auto border-bottom ">
             <div class="post-detail-header mb-5 ">
                 <a href="" class="text-primary">Game</a>
-                <h1 class="post-detail-title">@Model.Title</h1>
+                <h2 class="post-detail-title">@Model.Title</h2>
                 <span class="mb-5">
                     <i>@Model.Summary</i>
                 </span>
@@ -29,10 +29,53 @@
             <span>@Model.Author.FullName</span>
             <button class="btn btn-light">Follow</button>
         </div>
-        <section class="post-detail-comment-section border-dark">
-            <div class="">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium dolores esse et illum nostrum perferendis quod repudiandae sapiente, sunt, totam, vel voluptate! Ducimus nemo nostrum quae quasi qui rem unde?</p>
+        <section class="post-detail-comment-section  my-4 pb-4"
+                 id="comment-section">
+            <div id="comment-form">
+                <form action="" class="comment-form">
+                    <input class="comment-data border-0"
+                           id="commentData"
+                           placeholder="Nhap cam nghi cua ban: "/>
+                    <button type="submit" class="btn btn-light">Send</button>
+                </form>
+            </div>
+            <div class="comment-tree" id="commentTree">
+                <div class="comment-node">
+                    <div class="comment-node-header mb-3">
+                        <div class="avatar ">
+                            <img src="" alt="avatar">
+                        </div>
+                        <div class="info mx-3">
+                            <div class="user">ChisKien</div>
+                            <div class="date-posted">20-07-2022</div>
+                        </div>
+                    </div>
+                    <div class="comment-node-content">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquam animi culpa deleniti dolorum eius et, facere, fugit harum itaque numquam quis quo. Autem cum fugit omnis qui quidem temporibus!</p>
+                    </div>
+                    <div class="comment-node-action">
+                        <button class="btn btn-light px-2 py-1">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        <button class="btn btn-light px-2 py-1">Reply</button>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
 </section>
+<script type="text/javascript">
+async function getCommentById(id = 0) {
+    if (id !== 0) {
+        await fetch(`https://localhost:5001/api/Comment/postid?postid=${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+            }, method: "get"
+        }).then(res => res.json())
+            .then(data => console.table(data)).catch(e => console.error(e));
+    } else {
+        console.log("There is no comment here");
+        }
+}
+getCommentById(@Model.Id);
+</script>

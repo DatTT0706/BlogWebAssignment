@@ -4,8 +4,10 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - BlogWebAssignmentClient</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="~/css/site.css"/>
     <link rel="stylesheet" href="~/css/style.css"/>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
 <header>
@@ -44,7 +46,9 @@
                         Login
                     </a>
                     <a class="btn btn-dark text-white" asp-controller="Register"
-                       asp-action="Index">Register</a>
+                       asp-action="Index">
+                        Register
+                    </a>
                     @if (1 == 1)
                     {
                         <a class="btn btn-dark text-white" asp-controller="PostContent"
@@ -76,9 +80,6 @@
                             </ul>
                         </div>
                     }
-
-
-
                 </div>
             </div>
         </div>

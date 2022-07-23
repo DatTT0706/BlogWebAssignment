@@ -1,0 +1,15 @@
+@use "custom-variables" as *;
+
+.post-detail {
+    width: 700px;
+    font-family: $primary-font-serif;
+  &-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+  }
+  &-content {
+    font-size: 1.4rem;
+  }
+}

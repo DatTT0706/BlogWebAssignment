@@ -186,7 +186,7 @@ namespace BlogWebAssignment_API.Controllers
                 {
                     await image.CopyToAsync(stream);
                 }
-                post.MetaTitle = filePath;
+                post.MetaTitle = image.FileName;
                 await _context.Posts.AddAsync(post);
                 await _context.SaveChangesAsync();
                 return Ok();

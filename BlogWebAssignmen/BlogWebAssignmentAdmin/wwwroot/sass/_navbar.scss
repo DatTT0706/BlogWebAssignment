@@ -1,0 +1,15 @@
+﻿@use "custom-variables" as *;
+
+.navbar-left {
+  padding-left: 1em;
+
+  .navbar-brand {
+    padding-left: .5rem;
+  }
+}
+
+.navbar-right {
+  a {
+    color: $primary-link-color;
+  }
+}
