@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -17,10 +18,11 @@ namespace BlogWebAssignmentClient.Security
         {
             var claims = new[] {
             new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Role, user.Role.RoleName),
             new Claim(ClaimTypes.NameIdentifier,
             Guid.NewGuid().ToString())
-        };
+            };
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
@@ -45,6 +47,9 @@ namespace BlogWebAssignmentClient.Security
                     ValidAudience = issuer,
                     IssuerSigningKey = mySecurityKey,
                 }, out SecurityToken validatedToken);
+                var tokenString = new JwtSecurityTokenHandler().ReadJwtToken(token);
+                var claim = tokenString.Claims.First(c => c.Type == ClaimTypes.Name).Value;
+                
             }
             catch
             {
