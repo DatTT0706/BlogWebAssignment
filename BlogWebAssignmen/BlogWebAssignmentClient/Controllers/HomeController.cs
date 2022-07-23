@@ -7,27 +7,49 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlogWebAssignmentClient.Models;
+using BlogWebAssignmentClient.Security;
 using DataAccess.DTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace BlogWebAssignmentClient.Controllers
 {
     public class HomeController : Controller
     {
         private readonly HttpClient _client;
+        private readonly IConfiguration _config;
+        private readonly ITokenService _tokenService;
         private readonly string PostApi = "https://localhost:5001/api/Post/";
 
-        public HomeController()
+        public HomeController(IConfiguration config, ITokenService tokenService)
         {
             _client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             _client.BaseAddress = new Uri(PostApi);
             _client.DefaultRequestHeaders.Accept.Add(contentType);
+            _config = config;
+            _tokenService = tokenService;
         }
 
+        //[Authorize(Roles ="Admin")]
         public async Task<IActionResult> Index()
         {
+
+            //string token = HttpContext.Session.GetString("Token");
+            //if (token == null)
+            //{
+            //    return (RedirectToAction("Index", "Login"));
+            //}
+            //if (!_tokenService.ValidateToken(_config["Jwt:Key"].ToString(), _config["Jwt:Issuer"].ToString(), token))
+            //{
+            //    return (RedirectToAction("Index", "Login"));
+            //}
+            ////ViewBag.Message = BuildMessage(token, 50);
+            ////return View();
+
             var response = await _client.GetAsync(PostApi);
             var strData = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions

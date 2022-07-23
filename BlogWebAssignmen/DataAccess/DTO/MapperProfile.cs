@@ -17,7 +17,8 @@ namespace DataAccess.DTO
             CreateMap<User, UserDTO>();
             CreateMap<Post, PostDTO>();
             CreateMap<PostCategory, PostCategoryDTO>();
-            CreateMap<PostComment, CommentDTO>();
+            CreateMap<PostComment, CommentDTO>(); 
+            CreateMap<Role, RoleDTO>();
         }
     }
 }

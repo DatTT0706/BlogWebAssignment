@@ -20,5 +20,7 @@ namespace DataAccess.DTO
         public DateTime LastLogin { get; set; }
         public string Intro { get; set; }
         public string Profile { get; set; }
+        public int RoleId { get; set; }
+        public RoleDTO Role{ get; set; }
     }
 }
