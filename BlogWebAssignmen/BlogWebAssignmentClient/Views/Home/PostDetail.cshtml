@@ -6,8 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <section class="container post-detail">
-
-
     <div class="post-detail-container ">
         <div class=" mx-auto border-bottom ">
             <div class="post-detail-header mb-5 ">
@@ -40,26 +38,6 @@
                 </form>
             </div>
             <div class="comment-tree" id="commentTree">
-                <div class="comment-node">
-                    <div class="comment-node-header mb-3">
-                        <div class="avatar ">
-                            <img src="" alt="avatar">
-                        </div>
-                        <div class="info mx-3">
-                            <div class="user">ChisKien</div>
-                            <div class="date-posted">20-07-2022</div>
-                        </div>
-                    </div>
-                    <div class="comment-node-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aliquam animi culpa deleniti dolorum eius et, facere, fugit harum itaque numquam quis quo. Autem cum fugit omnis qui quidem temporibus!</p>
-                    </div>
-                    <div class="comment-node-action">
-                        <button class="btn btn-light px-2 py-1">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                        <button class="btn btn-light px-2 py-1">Reply</button>
-                    </div>
-                </div>
             </div>
         </section>
     </div>
@@ -72,10 +50,40 @@ async function getCommentById(id = 0) {
                 "Content-Type": "application/json",
             }, method: "get"
         }).then(res => res.json())
-            .then(data => console.table(data)).catch(e => console.error(e));
+            .then(data => displayComment(data))
+            .catch(e => console.error(e));
     } else {
         console.log("There is no comment here");
         }
 }
+async function displayComment(data = []) {
+    const commentTree = document.getElementById("commentTree");
+
+    data.forEach((item) => {
+        const commentNode = document.createElement("div");
+        commentNode.className = "comment-node mb-5";
+        commentNode.innerHTML = ` <div class="comment-node-header mb-3">
+                        <div class="avatar ">
+                            <img src="" alt="avatar">
+                        </div>
+                        <div class="info mx-3">
+                            <div class="user">${item["userName"]}</div>
+                            <div class="date-posted">${item["publishedAt"]}</div>
+                        </div>
+                    </div>
+                    <div class="comment-node-content">
+                        <p>${item["content"]}</p>
+                    </div>
+                    <div class="comment-node-action">
+                        <button class="btn btn-light px-2 py-1">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                        <button class="btn btn-light px-2 py-1">Reply</button>
+                    </div>`;
+        commentTree.appendChild(commentNode);
+    })
+}
+
+
 getCommentById(@Model.Id);
 </script>
