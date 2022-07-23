@@ -11,6 +11,7 @@ using BlogWebAssignmentClient.Security;
 using DataAccess.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -75,6 +76,17 @@ namespace BlogWebAssignmentClient.Controllers
             return View("PostDetail", post);
         }
 
+        public async Task<ActionResult> GetNewestPost()
+        {
+            var response = await _client.GetAsync($"NewestPost");
+            var strData = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var postDtos = JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
+            return View("Index",postDtos);
+        }
         public async Task<ActionResult> OnGetPostByCategoryId(int id)
         {
             var response = await _client.GetAsync($"PostCategory/{id}");
@@ -84,7 +96,7 @@ namespace BlogWebAssignmentClient.Controllers
                 PropertyNameCaseInsensitive = true
             };
             var postDtos = JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
-            return View("Index",postDtos);
+            return View("CategoryDetail", postDtos);
         }
 
         public IActionResult Privacy()

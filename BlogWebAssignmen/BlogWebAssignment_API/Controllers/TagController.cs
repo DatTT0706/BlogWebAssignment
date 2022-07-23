@@ -16,7 +16,6 @@ namespace BlogWebAssignment_API.Controllers
     [ApiController]
     public class TagController : ControllerBase
     {
-
         private readonly ILogger<TagController> _logger;
         private readonly PRN231_BlogContext _context;
         private MapperConfiguration config;
@@ -29,7 +28,6 @@ namespace BlogWebAssignment_API.Controllers
             _logger = logger;
             config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = config.CreateMapper();
-
         }
 
         [HttpGet]
@@ -48,7 +46,7 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Tag>> GetTagById(string id) 
+        public async Task<ActionResult<Tag>> GetTagById(string id)
         {
             try
             {
@@ -105,6 +103,17 @@ namespace BlogWebAssignment_API.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpGet("PostTag/{postId}")]
+        public async Task<ActionResult<PostTag>> GetTagsByPostId(int postId)
+        {
+            var posTag = await _context.PostTags
+                .Include(x => x.Post)
+                .Include(x => x.Tag)
+                .Where(x => x.PostId == postId)
+                .ToListAsync();
+            return Ok(posTag);
         }
     }
 }

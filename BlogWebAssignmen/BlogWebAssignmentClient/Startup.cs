@@ -81,7 +81,7 @@ namespace BlogWebAssignmentClient
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
 
             app.UseEndpoints(endpoints =>
             {
