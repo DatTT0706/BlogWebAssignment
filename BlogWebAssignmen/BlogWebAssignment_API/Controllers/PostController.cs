@@ -35,7 +35,8 @@ namespace BlogWebAssignment_API.Controllers
         public IActionResult Get()
         {
             List<PostDTO> posts;
-            posts = _context.Posts.Include(p => p.Author).ProjectTo<PostDTO>(config).ToList();
+            posts = _context.Posts.Include(p => p.Author)
+                .ProjectTo<PostDTO>(config).ToList();
             return Ok(posts);
         }
 
@@ -71,7 +72,8 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpPost("PostByCategoryAndTag/{page}")]
-        public async Task<ActionResult> GetByTagCategory(int page,[FromQuery]List<CategoryDTO>? categoryList, [FromQuery] List<TagDTO> tagList)
+        public async Task<ActionResult> GetByTagCategory(int page, [FromQuery] List<CategoryDTO>? categoryList,
+            [FromQuery] List<TagDTO> tagList)
         {
             List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
             bool isCategoryListEmpty = categoryList == null || categoryList.Count == 0;
@@ -146,14 +148,12 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpGet("PostCategory/{categoryId}")]
-        public async Task<ActionResult<PostDTO>> GetPostsByCategoryId(int categoryId)
+        public async Task<ActionResult<PostCategory>> GetPostsByCategoryId(int categoryId)
         {
             var postCategoryDto = await _context.PostCategories
                 .Include(x => x.Post)
                 .Include(x => x.Category)
                 .Where(x => x.CategoryId == categoryId)
-                .Select(x => x.Post)
-                .ProjectTo<PostDTO>(config)
                 .ToListAsync();
             return Ok(postCategoryDto);
         }

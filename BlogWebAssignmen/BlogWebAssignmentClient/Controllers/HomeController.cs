@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using BlogWebAssignmentClient.Models;
 using DataAccess.DTO;
+using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogWebAssignmentClient.Controllers
@@ -61,7 +62,7 @@ namespace BlogWebAssignmentClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            var postDtos = JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
+            var postDtos = JsonSerializer.Deserialize<List<PostCategory>>(strData, options);
             return View("CategoryDetail", postDtos);
         }
 
