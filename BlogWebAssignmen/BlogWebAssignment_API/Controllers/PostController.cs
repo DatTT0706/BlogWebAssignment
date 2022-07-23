@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace BlogWebAssignment_API.Controllers
 {
@@ -170,14 +172,41 @@ namespace BlogWebAssignment_API.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("NewestPost")]
-        public async Task<ActionResult> GetPostOrderByDate()
-        {
-            var post = await _context.Posts.Include(p => p.Author)
-                .OrderBy(p => p.PublishedAt)
-                .ProjectTo<PostDTO>(config)
-                .ToListAsync();
-            return Ok(post);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult> SavePost(Post post,IFormFile Image) 
+        //{
+        //    try
+        //    {
+        //        //Checking if the user uploaded the image correctly
+        //        if (Image == null || Image.Length == 0)
+        //        {
+        //            return Content("File not selected");
+        //        }
+        //        //Set the image location under WWWRoot folder. For example if you have the folder name image then you should set "image" in "FolderNameOfYourWWWRoot"
+        //        var path = Path.Combine(_environment.WebRootPath, "FolderNameOfYourWWWRoot", Image.FileName);
+        //        //Saving the image in that folder 
+        //        using (FileStream stream = new FileStream(path, FileMode.Create))
+        //        {
+        //            await Image.CopyToAsync(stream);
+        //            stream.Close();
+        //        }
+
+        //        //Setting Image name in your product DTO
+        //        //If you want to save image name then do like this But if you want to save image location then write assign the path 
+        //        pro.ImageUrl = Image.FileName;
+
+        //        var productEntity = _mapper.Map<Product>(pro);
+        //        var newProduct = _SqlService.AddProduct(productEntity);
+
+        //        var productForReturn = _mapper.Map<ProductDto>(newProduct);
+
+        //        return CreatedAtRoute("GetProduct", new { id = productForReturn.ProId },
+        //            productForReturn);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex}");
+        //    }
+        //}
     }
 }
