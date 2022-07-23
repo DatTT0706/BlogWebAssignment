@@ -30,11 +30,16 @@
         <section class="post-detail-comment-section  my-4 pb-4"
                  id="comment-section">
             <div id="comment-form">
-                <form action="" class="comment-form">
+                <form class="comment-form" method="post">
                     <input class="comment-data border-0"
+                           type="text"
                            id="commentData"
                            placeholder="Nhap cam nghi cua ban: "/>
-                    <button type="submit" class="btn btn-light">Send</button>
+                    <button id="sendBtn"
+                            onclick="getConent()"
+                            class="btn btn-light">
+                        Send
+                    </button>
                 </form>
             </div>
             <div class="comment-tree" id="commentTree">
@@ -83,7 +88,16 @@ async function displayComment(data = []) {
         commentTree.appendChild(commentNode);
     })
 }
-
+// async function postComment() {
+//     await fetch("https://localhost:5001/api/Comment", {
+//         headers: {
+//             "Content-Type": "application/json",
+//         } , method: "post",
+//         body: JSON.stringify({content})
+//     }).then(res => res.json())
+//     .then(() => console.log("Success"))
+//     .catch(e => console.error(e))   
+// }
 
 getCommentById(@Model.Id);
 </script>
