@@ -147,13 +147,14 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpGet("PostCategory/{categoryId}")]
-        public async Task<ActionResult<PostCategory>> GetByCategoryId(int categoryId)
+        public async Task<ActionResult<PostDTO>> GetPostsByCategoryId(int categoryId)
         {
             var postCategoryDto = await _context.PostCategories
                 .Include(x => x.Post)
                 .Include(x => x.Category)
                 .Where(x => x.CategoryId == categoryId)
                 .Select(x => x.Post)
+                .ProjectTo<PostDTO>(config)
                 .ToListAsync();
             return Ok(postCategoryDto);
         }
