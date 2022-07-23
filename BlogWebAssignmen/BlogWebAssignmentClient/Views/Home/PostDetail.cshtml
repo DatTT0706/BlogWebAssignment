@@ -9,7 +9,6 @@
     <div class="post-detail-container ">
         <div class=" mx-auto border-bottom ">
             <div class="post-detail-header mb-5 ">
-                <a href="" class="text-primary">Game</a>
                 <h2 class="post-detail-title">@Model.Title</h2>
                 <span class="mb-5">
                     <i>@Model.Summary</i>
@@ -23,20 +22,20 @@
             </div>
         </div>
         <div class="post-detail-author p-3 mt-3">
-            <img src="" alt="Author">
+            <i class="fa-solid fa-user"></i>
             <span>@Model.Author.FullName</span>
-            <button class="btn btn-light">Follow</button>
         </div>
         <section class="post-detail-comment-section  my-4 pb-4"
                  id="comment-section">
             <div id="comment-form">
-                <form class="comment-form" method="post">
+                <form class="comment-form">
                     <input class="comment-data border-0"
                            type="text"
                            id="commentData"
-                           placeholder="Nhap cam nghi cua ban: "/>
+                           placeholder="Nhap nhan xet cua ban: ">
                     <button id="sendBtn"
-                            onclick="getConent()"
+                            type="button"
+                            onclick="postComment()"
                             class="btn btn-light">
                         Send
                     </button>
@@ -69,7 +68,7 @@ async function displayComment(data = []) {
         commentNode.className = "comment-node mb-5";
         commentNode.innerHTML = ` <div class="comment-node-header mb-3">
                         <div class="avatar ">
-                            <img src="" alt="avatar">
+                               <i class="fa-solid fa-user"></i>
                         </div>
                         <div class="info mx-3">
                             <div class="user">${item["userName"]}</div>
@@ -88,16 +87,50 @@ async function displayComment(data = []) {
         commentTree.appendChild(commentNode);
     })
 }
-// async function postComment() {
-//     await fetch("https://localhost:5001/api/Comment", {
-//         headers: {
-//             "Content-Type": "application/json",
-//         } , method: "post",
-//         body: JSON.stringify({content})
-//     }).then(res => res.json())
-//     .then(() => console.log("Success"))
-//     .catch(e => console.error(e))   
-// }
-
+const commentDate = document.getElementById("commentData").value;
+let comment = {
+   id: 0,
+   postId: @Model.Id,
+   userId: 2,
+   title: "Title",
+   createAt: new Date().getDate(),
+   published: 0,
+   publishedAt: new Date().getDate(),
+   content: commentDate
+}
+async function postComment() {
+     const commentTree = document.getElementById("commentTree");
+    await fetch("https://localhost:5001/api/Comment", {
+        headers: {
+            "Content-Type": "application/json"
+        } , method: "post",
+        body: JSON.stringify(comment)
+    }).then(res => res.json())
+    .then((data) => {
+            console.log(data);
+            const commentNode = document.createElement("div");
+                    commentNode.className = "comment-node mb-5";
+                    commentNode.innerHTML = ` <div class="comment-node-header mb-3">
+                                    <div class="avatar ">
+                                           <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div class="info mx-3">
+                                        <div class="user">${data["userName"]}</div>
+                                        <div class="date-posted">${data["publishedAt"]}</div>
+                                    </div>
+                                </div>
+                                <div class="comment-node-content">
+                                    <p>${data["content"]}</p>
+                                </div>
+                                <div class="comment-node-action">
+                                    <button class="btn btn-light px-2 py-1">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <button class="btn btn-light px-2 py-1">Reply</button>
+                                </div>`;
+                    commentTree.appendChild(commentNode);
+        })
+    .catch(e => console.error(e))   
+}
 getCommentById(@Model.Id);
 </script>

@@ -70,9 +70,10 @@ namespace BlogWebAssignment_API.Controllers
 
 
         [HttpPost("title")]
-        public async Task<ActionResult> SearchPostByName(string title )
+        public async Task<ActionResult> SearchPostByName(string title)
         {
-            List<PostDTO> posts = await _context.Posts.Include(p => p.Author).Where(p => p.Title.Contains(title))
+            List<PostDTO> posts = await _context.Posts
+                .Include(p => p.Author).Where(p => p.Title.Contains(title))
                 .ProjectTo<PostDTO>(config)
                 .ToListAsync();
             if (posts == null) return NotFound();
@@ -80,7 +81,7 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpPost("PostByCategoryAndTag")]
-        public async Task<ActionResult> GetByTagCategory( [FromQuery] List<CategoryDTO>? categoryList,
+        public async Task<ActionResult> GetByTagCategory([FromQuery] List<CategoryDTO>? categoryList,
             [FromQuery] List<TagDTO> tagList)
         {
             List<PostDTO> result = await _context.Posts.Include(p => p.Author).ProjectTo<PostDTO>(config).ToListAsync();
@@ -179,6 +180,7 @@ namespace BlogWebAssignment_API.Controllers
                 {
                     await image.CopyToAsync(stream);
                 }
+
                 post.MetaTitle = image.FileName;
                 await _context.Posts.AddAsync(post);
                 await _context.SaveChangesAsync();

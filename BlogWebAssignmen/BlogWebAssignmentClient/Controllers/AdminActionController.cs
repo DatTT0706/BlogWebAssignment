@@ -2,6 +2,7 @@
 using DataAccess.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -17,6 +18,7 @@ namespace BlogWebAssignmentClient.Controllers
         private readonly IConfiguration _config;
         private readonly ITokenService _tokenService;
         private readonly string PostApi = "https://localhost:5001/api/Post/";
+        private readonly string ImageApi = "https://localhost:5001/api/Image/";
 
         public AdminActionController(IConfiguration config, ITokenService tokenService)
         {
@@ -36,8 +38,24 @@ namespace BlogWebAssignmentClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            var postDtos = JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
+            var postDtos = System.Text.Json.JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
             return View("PostManagement", postDtos);
+        }
+
+        public async Task<IActionResult> TestView()
+        {
+            //_client.BaseAddress = new Uri(ImageApi);
+            var response = await _client.GetAsync(ImageApi+ "imageName?imageName=tea.jpg");
+            
+            //required using Newtonsoft.Json;
+            var strData = await response.Content.ReadAsStringAsync();
+            var forumModel = JsonConvert.DeserializeObject<ImageDTO>(strData);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            //var postDtos = System.Text.Json.JsonSerializer.Deserialize<List<PostDTO>>(strData, options);
+            return View("TestView", forumModel);
         }
 
         public IActionResult HidePost()

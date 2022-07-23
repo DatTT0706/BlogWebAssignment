@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using DataAccess.DTO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,17 +22,22 @@ namespace BlogWebAssignment_API.Controllers
         [HttpGet("imageName")]
         public async Task<IActionResult> GetImageByName(string imageName)
         {
+            ImageDTO imgDto = new ImageDTO();
             string filePath = Path.Combine(_environment.ContentRootPath, "image", imageName);
+
             try
             {
                 if (System.IO.File.Exists(filePath))
                 {
                     var image = System.IO.File.OpenRead(filePath);
                     string ex = Path.GetExtension(filePath);
-                    return File(image,"image/"+ex);
+                    imgDto.Content = System.IO.File.ReadAllBytes("image/"+imageName);
+
+                    //return File(image,"image/"+ex);
+                    return Ok(imgDto);
 
                 }
-               
+
                 return NotFound();
             }
             catch (Exception ex)
@@ -40,6 +46,18 @@ namespace BlogWebAssignment_API.Controllers
 
             }
 
+        }
+
+        public static byte[] ToByteArray(Stream stream)
+        {
+            using (stream)
+            {
+                using (MemoryStream memStream = new MemoryStream())
+                {
+                    stream.CopyTo(memStream);
+                    return memStream.ToArray();
+                }
+            }
         }
 
     }
