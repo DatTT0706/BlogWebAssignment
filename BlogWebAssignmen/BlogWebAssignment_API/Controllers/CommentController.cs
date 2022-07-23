@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using DataAccess.DTO;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,7 @@ namespace BlogWebAssignment_API.Controllers
         private readonly PRN231_BlogContext _context;
         private IMapper mapper;
 
-        public CommentController(MapperConfiguration config, PRN231_BlogContext context, IMapper mapper)
+        public CommentController(PRN231_BlogContext context)
         {
             this.config = config;
             _context = context;
