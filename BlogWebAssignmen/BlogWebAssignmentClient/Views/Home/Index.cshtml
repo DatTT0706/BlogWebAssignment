@@ -45,14 +45,18 @@
                             <div class="data">
                                 <div class="content">
                                     <!--Tao cần map author(user) với post. Please !!  -->
-                                    <span class="author">Jane Doe</span>
+                                    <span class="author">@post.Author.FullName</span>
                                     <h4 class="title">
                                         <a href="#">@post.Title</a>
                                     </h4>
                                     <p class="text">
                                         @post.Summary
                                     </p>
-                                    <a href="#" class="button">Read more</a>
+                                    <a asp-action="OnGetPostDetail"
+                                       asp-route-id="@post.Id"
+                                       asp-controller="Home" class="button">
+                                        Read more
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -65,8 +69,8 @@
         <section class="blog-post-content">
             <div class="blog-post-content-wrapper">
                 <div class="blog-post-content-filter">
-                    <a class="link-dark" href="">Most Votes</a>
-                    <a class="link-dark" href="">Newest Post</a>
+                    <button class="btn btn-dark">Most Votes</button>
+                    <button class="btn btn-dark">Newest Post</button>
                 </div>
                 <div class="blog-post-content-card mt-4">
                     @foreach (var post in Model)
@@ -100,7 +104,7 @@
                                     <div class="post-card-content-author position-relative">
                                         <img src="" alt="Author">
                                         <a href="" class="text-dark">
-                                            <span>ChisKien</span>
+                                            <span>@post.Author.FullName</span>
                                             <span class="date-posted">| @post.PublishedAt.ToShortDateString()</span>
                                         </a>
                                         <div class="post-card-content-action d-inline-block">

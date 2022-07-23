@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -11,13 +9,13 @@ namespace DataAccess.Models
     {
         public Post()
         {
+            PostCategories = new HashSet<PostCategory>();
             PostComments = new HashSet<PostComment>();
             PostMeta = new HashSet<PostMeta>();
         }
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public int Id { get; set; }
-        [Required]
-        public int AuthorId { get; set; }
+        public int? AuthorId { get; set; }
         public int? ParentId { get; set; }
         public string Title { get; set; }
         public string MetaTitle { get; set; }
@@ -31,6 +29,7 @@ namespace DataAccess.Models
         public string Content { get; set; }
 
         public virtual User Author { get; set; }
+        public virtual ICollection<PostCategory> PostCategories { get; set; }
         public virtual ICollection<PostComment> PostComments { get; set; }
         public virtual ICollection<PostMeta> PostMeta { get; set; }
     }

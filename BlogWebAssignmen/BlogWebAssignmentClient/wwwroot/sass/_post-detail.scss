@@ -1,0 +1,17 @@
+@use "custom-variables" as *;
+
+.post-detail {
+  &-container {
+    width: 700px;
+  }
+
+  &-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-family: $primary-font-serif;
+  }
+  &-content {
+    font-size: 1.7rem;
+  }
+}

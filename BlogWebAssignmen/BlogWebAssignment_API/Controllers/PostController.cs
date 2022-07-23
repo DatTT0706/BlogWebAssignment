@@ -37,7 +37,8 @@ namespace BlogWebAssignment_API.Controllers
         public IActionResult Get()
         {
             List<PostDTO> posts;
-            posts = _context.Posts.Include(p => p.Author)
+            posts = _context.Posts
+                .Include(p => p.Author)
                 .ProjectTo<PostDTO>(config).ToList();
             return Ok(posts);
         }
@@ -54,7 +55,7 @@ namespace BlogWebAssignment_API.Controllers
         public IActionResult Get(int id)
         {
             PostDTO post;
-            post = _context.Posts.Include(p=>p.Author).ProjectTo<PostDTO>(config).FirstOrDefault(x => x.Id == id);
+            post = _context.Posts.Include(p => p.Author).ProjectTo<PostDTO>(config).FirstOrDefault(x => x.Id == id);
             if (post == null)
             {
                 return NotFound(); // Response with status code: 404
@@ -67,7 +68,8 @@ namespace BlogWebAssignment_API.Controllers
         [HttpPost("title")]
         public async Task<ActionResult> SearchPostByName(string title, int page)
         {
-            List<PostDTO> posts = await _context.Posts.Include(p => p.Author).Where(p => p.Title.Contains(title)).ProjectTo<PostDTO>(config)
+            List<PostDTO> posts = await _context.Posts.Include(p => p.Author).Where(p => p.Title.Contains(title))
+                .ProjectTo<PostDTO>(config)
                 .ToListAsync();
             if (posts == null) return NotFound();
             return Ok(GetPostPage(10, page, posts));
@@ -150,20 +152,23 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpGet("PostCategory/{categoryId}")]
-        public async Task<ActionResult<PostCategory>> GetPostsByCategoryId(int categoryId)
+        public async Task<ActionResult<PostDTO>> GetPostsByCategoryId(int categoryId)
         {
             var postCategoryDto = await _context.PostCategories
                 .Include(x => x.Post)
                 .Include(x => x.Category)
                 .Where(x => x.CategoryId == categoryId)
+                .Select(x => x.Post)
+                .ProjectTo<PostDTO>(config)
                 .ToListAsync();
             return Ok(postCategoryDto);
         }
 
-        [HttpGet("Post/Author/{authorId}")]
+        [HttpGet("Author/{authorId}")]
         public async Task<ActionResult> GetPostByAuthor(int authorId)
         {
-            var posts = await _context.Posts.Include(p => p.Author).Where(p => p.AuthorId == authorId).ProjectTo<PostDTO>(config).ToListAsync();
+            var posts = await _context.Posts.Include(p => p.Author).Where(p => p.AuthorId == authorId)
+                .ProjectTo<PostDTO>(config).ToListAsync();
             return Ok(posts);
         }
 

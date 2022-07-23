@@ -28,4 +28,9 @@ async function displayCategory(data = []) {
 
 getData();
 
+
+async function getNewestPost() {
+    
+}
+
 // Write your JavaScript code.
