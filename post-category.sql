@@ -1,3 +1,4 @@
+use PRN231_Blog
 alter table post_category
     alter column postId int not null
 go

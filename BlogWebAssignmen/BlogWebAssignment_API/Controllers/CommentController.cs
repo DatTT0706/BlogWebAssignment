@@ -30,7 +30,11 @@ namespace BlogWebAssignment_API.Controllers
         [HttpGet("postid")]
         public async Task<ActionResult> GetCommentByPost(int postid)
         {
-            var comments = await _context.PostComments.Where(c => c.PostId == postid).ProjectTo<CommentDTO>(config).ToListAsync();
+            var comments = await _context.PostComments
+                .Include(x => x.User)
+                .Where(c => c.PostId == postid)
+                .ProjectTo<CommentDTO>(config)
+                .ToListAsync();
             if (comments == null || comments.Count == 0) return NotFound();
 
             return Ok(comments);
@@ -54,18 +58,17 @@ namespace BlogWebAssignment_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SaveComment(CommentDTO comment)
+        public async Task<ActionResult> SaveComment(PostComment comment)
         {
             try
             {
-                _context.Add(comment);
+                _context.PostComments.Add(comment);
                 await _context.SaveChangesAsync();
                 return Ok();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message.ToString());
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
