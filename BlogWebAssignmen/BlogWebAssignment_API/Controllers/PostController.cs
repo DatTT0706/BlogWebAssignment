@@ -19,14 +19,15 @@ namespace BlogWebAssignment_API.Controllers
         private readonly ILogger<PostController> _logger;
         private MapperConfiguration config;
         private readonly PRN231_BlogContext _context;
-        private IMapper mapper;
+        private IMapper _mapper;
 
         public PostController(ILogger<PostController> logger,
             PRN231_BlogContext context)
         {
             _context = context;
-            config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
-            mapper = config.CreateMapper();
+            config = new MapperConfiguration(cfg =>
+                cfg.AddProfile(new MapperProfile()));
+            _mapper = config.CreateMapper();
             _logger = logger;
         }
 
@@ -35,11 +36,6 @@ namespace BlogWebAssignment_API.Controllers
         {
             List<PostDTO> posts;
             posts = _context.Posts.ProjectTo<PostDTO>(config).ToList();
-            if (posts == null)
-            {
-                return NotFound(); // Response with status code: 404
-            }
-
             return Ok(posts);
         }
 
@@ -83,12 +79,13 @@ namespace BlogWebAssignment_API.Controllers
             {
                 foreach (var category in categoryList)
                 {
-                    List<PostCategory> mapping = await _context.PostCategories.Where(pc => pc.CategoryId == category.Id).ToListAsync();
+                    List<PostCategory> mapping = await _context.PostCategories.Where(pc => pc.CategoryId == category.Id)
+                        .ToListAsync();
                     List<int> input = mapping.Select(pc => pc.PostId).ToList();
                     result = SortPostList(result, input).ToList();
                 }
             }
-            
+
             bool isTagListEmpty = tagList == null || tagList.Count == 0;
             if (!isTagListEmpty)
             {
@@ -99,9 +96,10 @@ namespace BlogWebAssignment_API.Controllers
                     result = SortPostList(result, input).ToList();
                 }
             }
+
             int pageSize = 10;
 
-            return Ok(GetPostPage(pageSize,page, result));
+            return Ok(GetPostPage(pageSize, page, result));
         }
 
 
@@ -141,10 +139,22 @@ namespace BlogWebAssignment_API.Controllers
             return postInPage;
         }
 
-        private IEnumerable<PostDTO> SortPostList(IEnumerable<PostDTO> posts,List<int> idList) 
+        private IEnumerable<PostDTO> SortPostList(IEnumerable<PostDTO> posts, List<int> idList)
         {
             List<PostDTO> postList = posts.Where(p => idList.Contains(p.Id)).ToList();
             return postList;
+        }
+
+        [HttpGet("PostCategory/{categoryId}")]
+        public async Task<ActionResult<PostCategory>> GetByCategoryId(int categoryId)
+        {
+            var postCategoryDto = await _context.PostCategories
+                .Include(x => x.Post)
+                .Include(x => x.Category)
+                .Where(x => x.CategoryId == categoryId)
+                .Select(x => x.Post)
+                .ToListAsync();
+            return Ok(postCategoryDto);
         }
     }
 }
