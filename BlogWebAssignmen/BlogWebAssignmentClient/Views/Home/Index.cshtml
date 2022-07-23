@@ -6,9 +6,6 @@
     <section class="popular-banner">
         <div class="popular-banner-title flex-row mb-1">
             <h3 class="d-inline-block">Popular this Month |</h3>
-            <a href="">
-                View top 10 post this Month
-            </a>
         </div>
         <div class="row mb-5">
             @foreach (var post in Model)
@@ -25,22 +22,7 @@
                                     <span class="month">@post.PublishedAt.Month</span>
                                     <span class="year">@post.PublishedAt.Year</span>
                                 </div>
-                                <ul class="menu-content">
-                                    <li>
-                                        <a href="#" class="fa fa-bookmark-o"></a>
-                                    </li>
-                                    @* <li> *@
-                                    @*     <a href="#" class="fa fa-heart-o"> *@
-                                    @*         <!--Tao can so luong like va comment please--> *@
-                                    @*         <span>18</span> *@
-                                    @*     </a> *@
-                                    @* </li> *@
-                                    @* <li> *@
-                                    @*     <a href="#" class="fa fa-comment-o"> *@
-                                    @*         <span>3</span> *@
-                                    @*     </a> *@
-                                    @* </li> *@
-                                </ul>
+                                
                             </div>
                             <div class="data">
                                 <div class="content">
@@ -68,10 +50,7 @@
     <main class="blog-post mb-5">
         <section class="blog-post-content">
             <div class="blog-post-content-wrapper">
-                <div class="blog-post-content-filter">
-                    <button class="btn btn-dark">Most Votes</button>
-                    <button class="btn btn-dark">Newest Post</button>
-                </div>
+              
                 <div class="blog-post-content-card mt-4">
                     @foreach (var post in Model)
                     {
@@ -83,14 +62,7 @@
                             </div>
                             <div class="post-card-content-wrapper col-md-7">
                                 <div class="post-card-content">
-                                    <div class="post-card-content-tag">
-                                        <a asp-action="Index" asp-controller="Tag">Games</a>
-                                        <span class="position-absolute end-0 bookmark">
-                                            <i class="fa-regular fa-bookmark"
-                                               style="font-size: 24px">
-                                            </i>
-                                        </span>
-                                    </div>
+                                   
                                     <div class="post-card-content-title">
                                         <a asp-action="OnGetPostDetail"
                                            asp-route-id="@post.Id"
@@ -102,25 +74,12 @@
                                         <p>@post.Summary</p>
                                     </div>
                                     <div class="post-card-content-author position-relative">
-                                        <img src="" alt="Author">
+                                           <i class="fa-solid fa-user"></i>
                                         <a href="" class="text-dark">
                                             <span>@post.Author.FullName</span>
                                             <span class="date-posted">| @post.PublishedAt.ToShortDateString()</span>
                                         </a>
-                                        @* <div class="post-card-content-action d-inline-block"> *@
-                                        @*     <span class="post-card-content-action-comment"> *@
-                                        @*         <i class="fa-regular fa-message" *@
-                                        @*            style="font-size: 18px"> *@
-                                        @*         </i> *@
-                                        @*         <span>10</span> *@
-                                        @*     </span> *@
-                                        @*     <span class="post-card-content-action-like"> *@
-                                        @*         <i class="fa-regular fa-heart" *@
-                                        @*            style="font-size: 18px"> *@
-                                        @*         </i> *@
-                                        @*         <span>10</span> *@
-                                        @*     </span> *@
-                                        @* </div> *@
+                                 
                                     </div>
                                 </div>
                             </div>
@@ -130,12 +89,12 @@
             </div>
 
         </section>
-        <aside class="blog-post-tag mx-auto p-3">
-            <h4>Topics</h4>
-            <div class="tags-list mb-3  ">
-
-            </div>
-        </aside>
+        @* <aside class="blog-post-tag mx-auto p-3"> *@
+        @*     <h4>Topics</h4> *@
+        @*     <div class="tags-list mb-3  "> *@
+        @* *@
+        @*     </div> *@
+        @* </aside> *@
 
     </main>
     <script src="~/js/fetchTag.js"></script>
