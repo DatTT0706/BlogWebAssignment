@@ -43,7 +43,7 @@ namespace BlogWebAssignment_API.Controllers
         [HttpGet("page")]
         public async Task<ActionResult> GetPostByPage(int page)
         {
-            List<PostDTO> posts = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
+            List<PostDTO> posts = await _context.Posts.Include(p => p.Author).ProjectTo<PostDTO>(config).ToListAsync();
             if (posts == null) return NotFound();
             return Ok(GetPostPage(10, page, posts));
         }
@@ -52,7 +52,7 @@ namespace BlogWebAssignment_API.Controllers
         public IActionResult Get(int id)
         {
             PostDTO post;
-            post = _context.Posts.ProjectTo<PostDTO>(config).FirstOrDefault(x => x.Id == id);
+            post = _context.Posts.Include(p=>p.Author).ProjectTo<PostDTO>(config).FirstOrDefault(x => x.Id == id);
             if (post == null)
             {
                 return NotFound(); // Response with status code: 404
@@ -65,7 +65,7 @@ namespace BlogWebAssignment_API.Controllers
         [HttpPost("title")]
         public async Task<ActionResult> SearchPostByName(string title, int page)
         {
-            List<PostDTO> posts = await _context.Posts.Where(p => p.Title.Contains(title)).ProjectTo<PostDTO>(config)
+            List<PostDTO> posts = await _context.Posts.Include(p => p.Author).Where(p => p.Title.Contains(title)).ProjectTo<PostDTO>(config)
                 .ToListAsync();
             if (posts == null) return NotFound();
             return Ok(GetPostPage(10, page, posts));
@@ -75,7 +75,7 @@ namespace BlogWebAssignment_API.Controllers
         public async Task<ActionResult> GetByTagCategory(int page, [FromQuery] List<CategoryDTO>? categoryList,
             [FromQuery] List<TagDTO> tagList)
         {
-            List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
+            List<PostDTO> result = await _context.Posts.Include(p => p.Author).ProjectTo<PostDTO>(config).ToListAsync();
             bool isCategoryListEmpty = categoryList == null || categoryList.Count == 0;
             if (!isCategoryListEmpty)
             {
@@ -110,7 +110,7 @@ namespace BlogWebAssignment_API.Controllers
         {
             try
             {
-                var post = _context.Posts.FirstOrDefault(x => x.Id == id);
+                var post = _context.Posts.Include(p => p.Author).FirstOrDefault(x => x.Id == id);
                 if (post == null)
                 {
                     return NotFound();
@@ -161,7 +161,7 @@ namespace BlogWebAssignment_API.Controllers
         [HttpGet("Post/Author/{authorId}")]
         public async Task<ActionResult> GetPostByAuthor(int authorId)
         {
-            var posts = await _context.Posts.Where(p => p.AuthorId == authorId).ProjectTo<PostDTO>(config).ToListAsync();
+            var posts = await _context.Posts.Include(p => p.Author).Where(p => p.AuthorId == authorId).ProjectTo<PostDTO>(config).ToListAsync();
             return Ok(posts);
         }
     }
