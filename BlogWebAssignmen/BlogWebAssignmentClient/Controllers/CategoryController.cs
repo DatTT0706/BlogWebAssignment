@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BlogWebAssignmentClient.Security;
+﻿using BlogWebAssignmentClient.Security;
 using DataAccess.DTO;
 using DataAccess.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -10,16 +10,17 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+
 namespace BlogWebAssignmentClient.Controllers
 {
-    public class TagController : Controller
+    public class CategoryController : Controller
     {
         public User Author { get; set; }
         private readonly HttpClient _client;
         private readonly IConfiguration _config;
         private readonly ITokenService _tokenService;
-        private readonly string PostApi = "https://localhost:5001/api/Tag/";
-        public TagController(IConfiguration config, ITokenService tokenService)
+        private readonly string PostApi = "https://localhost:5001/api/Category/";
+        public CategoryController(IConfiguration config, ITokenService tokenService)
         {
             _client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
@@ -36,7 +37,7 @@ namespace BlogWebAssignmentClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            var postDtos = JsonSerializer.Deserialize<List<TagDTO>>(strData, options);
+            var postDtos = JsonSerializer.Deserialize<List<CategoryDTO>>(strData, options);
             return View(postDtos);
         }
 
