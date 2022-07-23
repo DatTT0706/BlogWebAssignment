@@ -22,5 +22,6 @@ namespace DataAccess.DTO
         public string Profile { get; set; }
         public int RoleId { get; set; }
         public RoleDTO Role{ get; set; }
+        public virtual ICollection<PostDTO> Posts { get; set; }
     }
 }

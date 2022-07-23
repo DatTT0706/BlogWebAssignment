@@ -1,0 +1,101 @@
+﻿@model DataAccess.DTO.UserDTO
+@{
+    ViewData["Title"] = "User Profile";
+    int token =(int) ViewData["Token"];
+}
+<style>
+    body{
+        background-color: #eaeaea;
+    }
+    #post {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 3px;
+    }
+</style>
+<div class="profile-container">
+    <img src="https://s3.amazonaws.com/HC-CDN/blog-header.jpg" class="cover-img" />
+    <div class="profile-details">
+        <div class="pd-left">
+            <div class="pd-row">
+                <img src="https://xemvm.com/themes/989me/images/guestbook/no_avatar.png" class="pd-image" />
+                <div>
+                    <h3>@Model.FirstName @Model.MiddleName @Model.LastName</h3>
+                </div>
+            </div>
+        </div>
+        <div class="pd-right">
+            @if(token == @Model.Id)
+            {
+            <button type="button"><i class="fas fa-edit"></i> Chỉnh sửa</button>
+            }
+        </div>
+    </div>
+    <div class="profile-info">
+        <div class="info-col">
+            <div class="profile-intro">
+                <h3>Intro</h3>
+                <p class="intro-text">@Model.Intro</p>
+                <hr>
+            </div>
+        </div>
+        <div class="post-col">
+            <div class="blog-post-content-card mt-4">
+                @foreach (var post in Model.Posts)
+                {
+                    <div class="post-card flex-row mb-5" id="post">
+                        <div class="post-card-image-wrapper col-md-4">
+                            <img class="post-card-image"
+                                 src="https://images.unsplash.com/photo-1573592371950-348a8f1d9f38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1949&q=80"
+                                 alt="">
+                        </div>
+                        <div class="post-card-content-wrapper col-md-7">
+                            <div class="post-card-content">
+                                <div class="post-card-content-tag">
+                                    <a asp-action="Index" asp-controller="Tag">Games</a>
+                                    <span class="position-absolute end-0 bookmark">
+                                        <i class="fa-regular fa-bookmark"
+                                           style="font-size: 24px">
+                                        </i>
+                                    </span>
+                                </div>
+                                <div class="post-card-content-title">
+                                    <a asp-controller="Home"
+                                       asp-action="OnGetPostDetail"
+                                       asp-route-id="@post.Id"
+                                       class="text-dark">
+                                        <h4>
+                                            @post.Title
+                                        </h4>
+                                    </a>
+                                    <p>@post.Summary</p>
+                                </div>
+                                <div class="post-card-content-author position-relative">
+                                    <i class="fa-solid fa-user"></i>
+                                    <a href="" class="text-dark">
+                                        <span>@Model.FirstName @Model.MiddleName @Model.LastName</span>
+                                        <span class="date-posted">| @post.PublishedAt.ToShortDateString()</span>
+                                    </a>
+                                    @* <div class="post-card-content-action d-inline-block"> *@
+                                    @*     <span class="post-card-content-action-comment"> *@
+                                    @*         <i class="fa-regular fa-message" *@
+                                    @*            style="font-size: 18px"> *@
+                                    @*         </i> *@
+                                    @*         <span>10</span> *@
+                                    @*     </span> *@
+                                    @*     <span class="post-card-content-action-like"> *@
+                                    @*         <i class="fa-regular fa-heart" *@
+                                    @*            style="font-size: 18px"> *@
+                                    @*         </i> *@
+                                    @*         <span>10</span> *@
+                                    @*     </span> *@
+                                    @* </div> *@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
