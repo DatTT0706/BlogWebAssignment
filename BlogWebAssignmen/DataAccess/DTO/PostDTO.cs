@@ -1,5 +1,6 @@
 ﻿using DataAccess.Models;
 using System;
+using System.IO;
 
 namespace DataAccess.DTO
 {
@@ -17,7 +18,6 @@ namespace DataAccess.DTO
         public DateTime UpdateAt { get; set; }
         public DateTime PublishedAt { get; set; }
         public string Content { get; set; }
-
         public UserDTO Author { get; set; }
     }
 }
