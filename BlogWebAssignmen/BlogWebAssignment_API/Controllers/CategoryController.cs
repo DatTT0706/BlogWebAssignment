@@ -109,7 +109,7 @@ namespace BlogWebAssignment_API.Controllers
                 var post_cats = _context.PostCategories.Where(x => x.CategoryId == id);
                 if (post_cats.Any())
                 {
-                    return Ok("Category is in use");
+                    return BadRequest("Category is in use");
 
                 }
                 else

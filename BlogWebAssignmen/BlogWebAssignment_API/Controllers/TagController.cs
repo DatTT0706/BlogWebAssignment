@@ -90,7 +90,7 @@ namespace BlogWebAssignment_API.Controllers
                 var post_cats = _context.PostTags.Where(x => x.TagId == id);
                 if (post_cats.Any())
                 {
-                    return Ok("Tag is in use");
+                    return BadRequest("Tag is in use");
                 }
                 else
                 {
