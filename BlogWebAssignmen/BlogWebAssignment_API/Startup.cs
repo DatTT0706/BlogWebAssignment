@@ -32,8 +32,10 @@ namespace BlogWebAssignment_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddCors();
+            services.AddDbContext<PRN231_BlogContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("PRN231_Blog")));
             //security
             var key = "This is my first Test Key";
             services.AddAuthentication(x =>
@@ -54,8 +56,6 @@ namespace BlogWebAssignment_API
             });
 
             services.AddSingleton<IJwtAuth>(new CustomAuth(key));
-
-            services.AddDbContext<PRN231_BlogContext>(options => options.UseSqlServer(Configuration.GetConnectionString("PRN231_Blog")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BlogWebAssignment_API", Version = "v1" });
@@ -73,17 +73,14 @@ namespace BlogWebAssignment_API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

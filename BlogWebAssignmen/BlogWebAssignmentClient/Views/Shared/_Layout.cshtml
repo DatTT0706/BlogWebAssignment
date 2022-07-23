@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - BlogWebAssignmentClient</title>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="~/css/style.css"/>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg  navbar-light bg-light shadow fixed-top box-shadow mb-5 ">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                Blog Web
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1" id="categoryList">
+
+                </ul>
+            </div>
+            <div class="navbar-right ">
+                <div class="user-section flex-row">
+                    <span>
+                        <a href="" class="nav-link  d-inline-block">
+                            <i class="fa-regular fa-bell"
+                               style="font-size: 22px;">
+                            </i>
+                        </a>
+                    </span>
+                    <span>
+                        <a href="" class="nav-link d-inline-block">
+                            <i class="fa-solid fa-magnifying-glass"
+                               style="font-size: 22px;">
+                            </i>
+                        </a>
+                    </span>
+                    <a class="btn btn-dark text-white" asp-controller="Login"
+                       asp-action="Index">
+                        Login
+                    </a>
+                    <a class="btn btn-dark text-white" asp-controller="Register"
+                       asp-action="Index">Register</a>
+                    @if (1 == 1)
+                    {
+                        <a class="btn btn-dark text-white" asp-controller="PostContent"
+                           asp-action="Index">
+                            Post Content
+                        </a>
+                        <div class="dropdown d-inline-block">
+                            <button class="btn  dropdown-toggle btn-outline-dark" type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                ChisKien
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="User"
+                                       asp-action="Index">
+                                        View Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Log Out</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+
+
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container-fluid">
+    <br><br><br><br>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/ccd1962523.js" crossorigin="anonymous"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", false)
+</body>
+</html>

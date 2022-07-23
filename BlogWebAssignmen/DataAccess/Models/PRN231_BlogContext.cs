@@ -25,6 +25,7 @@ namespace DataAccess.Models
         public virtual DbSet<PostTag> PostTags { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles{ get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -275,8 +276,26 @@ namespace DataAccess.Models
                 entity.Property(e => e.RegisteredAt)
                     .HasColumnType("datetime")
                     .HasColumnName("registeredAt");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_user_role");
             });
 
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.ToTable("role");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.RoleName)
+                    .HasMaxLength(50)
+                    .HasColumnName("role_name");
+            });
             OnModelCreatingPartial(modelBuilder);
         }
 

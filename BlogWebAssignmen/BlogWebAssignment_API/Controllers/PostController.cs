@@ -3,12 +3,12 @@ using AutoMapper.QueryableExtensions;
 using DataAccess.DTO;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogWebAssignment_API.Controllers
 {
@@ -16,18 +16,18 @@ namespace BlogWebAssignment_API.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-       
         private readonly ILogger<PostController> _logger;
         private MapperConfiguration config;
         private readonly PRN231_BlogContext _context;
-        private IMapper mapper;
+        private IMapper _mapper;
 
         public PostController(ILogger<PostController> logger,
             PRN231_BlogContext context)
         {
             _context = context;
-            config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
-            mapper = config.CreateMapper();
+            config = new MapperConfiguration(cfg =>
+                cfg.AddProfile(new MapperProfile()));
+            _mapper = config.CreateMapper();
             _logger = logger;
         }
 
@@ -35,16 +35,20 @@ namespace BlogWebAssignment_API.Controllers
         public IActionResult Get()
         {
             List<PostDTO> posts;
-            posts = _context.Posts.ProjectTo<PostDTO>(config).ToList();
-            if (posts == null)
-            {
-                return NotFound(); // Response with status code: 404
-            }
+            posts = _context.Posts.Include(p => p.Author).ProjectTo<PostDTO>(config).ToList();
             return Ok(posts);
         }
 
+        [HttpGet("page")]
+        public async Task<ActionResult> GetPostByPage(int page)
+        {
+            List<PostDTO> posts = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
+            if (posts == null) return NotFound();
+            return Ok(GetPostPage(10, page, posts));
+        }
+
         [HttpGet("id")]
-        public IActionResult GetById(int id)
+        public IActionResult Get(int id)
         {
             PostDTO post;
             post = _context.Posts.ProjectTo<PostDTO>(config).FirstOrDefault(x => x.Id == id);
@@ -52,55 +56,59 @@ namespace BlogWebAssignment_API.Controllers
             {
                 return NotFound(); // Response with status code: 404
             }
+
             return Ok(post);
         }
 
-       
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(int id, Post Post)
+
+        [HttpPost("title")]
+        public async Task<ActionResult> SearchPostByName(string title, int page)
         {
-            if (id != Post.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(Post).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PostExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            List<PostDTO> posts = await _context.Posts.Where(p => p.Title.Contains(title)).ProjectTo<PostDTO>(config)
+                .ToListAsync();
+            if (posts == null) return NotFound();
+            return Ok(GetPostPage(10, page, posts));
         }
 
-        
-        [HttpPost]
-        public async Task<ActionResult<Post>> PostPost(Post Post)
+        [HttpPost("PostByCategoryAndTag/{page}")]
+        public async Task<ActionResult> GetByTagCategory(int page,[FromQuery]List<CategoryDTO>? categoryList, [FromQuery] List<TagDTO> tagList)
         {
-            _context.Posts.Add(Post);
-            await _context.SaveChangesAsync();
+            List<PostDTO> result = await _context.Posts.ProjectTo<PostDTO>(config).ToListAsync();
+            bool isCategoryListEmpty = categoryList == null || categoryList.Count == 0;
+            if (!isCategoryListEmpty)
+            {
+                foreach (var category in categoryList)
+                {
+                    List<PostCategory> mapping = await _context.PostCategories.Where(pc => pc.CategoryId == category.Id)
+                        .ToListAsync();
+                    List<int> input = mapping.Select(pc => pc.PostId).ToList();
+                    result = SortPostList(result, input).ToList();
+                }
+            }
 
-            return CreatedAtAction("GetPost", new { id = Post.Id }, Post);
+            bool isTagListEmpty = tagList == null || tagList.Count == 0;
+            if (!isTagListEmpty)
+            {
+                foreach (var tag in tagList)
+                {
+                    List<PostTag> mapping = await _context.PostTags.Where(pc => pc.TagId == tag.Id).ToListAsync();
+                    List<int> input = mapping.Select(pc => pc.PostId).ToList();
+                    result = SortPostList(result, input).ToList();
+                }
+            }
+
+            int pageSize = 10;
+
+            return Ok(GetPostPage(pageSize, page, result));
         }
+
 
         [HttpDelete("id")]
         public IActionResult Delete(int id)
         {
             try
             {
-                var post = _context.Posts.FirstOrDefault(x=>x.Id == id);
+                var post = _context.Posts.FirstOrDefault(x => x.Id == id);
                 if (post == null)
                 {
                     return NotFound();
@@ -110,9 +118,9 @@ namespace BlogWebAssignment_API.Controllers
                 var post_cats = _context.PostCategories.Where(x => x.PostId == id);
                 var post_coms = _context.PostComments.Where(x => x.PostId == id);
 
-                if(post_cats != null) _context.PostCategories.RemoveRange(post_cats);
-                if(post_tags != null) _context.PostTags.RemoveRange(post_tags);
-                if(post_coms != null) _context.PostComments.RemoveRange(post_coms);
+                if (post_cats != null) _context.PostCategories.RemoveRange(post_cats);
+                if (post_tags != null) _context.PostTags.RemoveRange(post_tags);
+                if (post_coms != null) _context.PostComments.RemoveRange(post_coms);
 
                 _context.Posts.Remove(post);
                 _context.SaveChanges();
@@ -124,9 +132,30 @@ namespace BlogWebAssignment_API.Controllers
             }
         }
 
-        private bool PostExists(int id)
+        private IEnumerable<PostDTO> GetPostPage(int pageSize, int index, IEnumerable<PostDTO> input)
         {
-            return _context.Posts.Any(e => e.Id == id);
+            int startIndex = (index - 1) * 10;
+            var postInPage = input.Skip(startIndex).Take(pageSize);
+            return postInPage;
+        }
+
+        private IEnumerable<PostDTO> SortPostList(IEnumerable<PostDTO> posts, List<int> idList)
+        {
+            List<PostDTO> postList = posts.Where(p => idList.Contains(p.Id)).ToList();
+            return postList;
+        }
+
+        [HttpGet("PostCategory/{categoryId}")]
+        public async Task<ActionResult<PostDTO>> GetPostsByCategoryId(int categoryId)
+        {
+            var postCategoryDto = await _context.PostCategories
+                .Include(x => x.Post)
+                .Include(x => x.Category)
+                .Where(x => x.CategoryId == categoryId)
+                .Select(x => x.Post)
+                .ProjectTo<PostDTO>(config)
+                .ToListAsync();
+            return Ok(postCategoryDto);
         }
     }
 }

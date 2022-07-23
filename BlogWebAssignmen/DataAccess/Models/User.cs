@@ -23,7 +23,7 @@ namespace DataAccess.Models
         public string LastName { get; set; }
         [Required, StringLength(50)]
         public string Mobile { get; set; }
-        [Required, StringLength(50)]
+        [EmailAddress, Required, StringLength(50)]
         public string Email { get; set; }
         [Required, StringLength(50)]
         public string PasswordHash { get; set; }
@@ -33,6 +33,9 @@ namespace DataAccess.Models
         public string Intro { get; set; }
         [Required, StringLength(int.MaxValue)]
         public string Proflie { get; set; }
+
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
     }
