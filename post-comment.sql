@@ -16,3 +16,11 @@ UPDATE PRN231_Blog.dbo.post_comment set userId = 2 WHERE id = 2;
 UPDATE PRN231_Blog.dbo.post_comment set userId = 3 WHERE id = 3;
 UPDATE PRN231_Blog.dbo.post_comment set userId = 4 WHERE id = 4;
 UPDATE PRN231_Blog.dbo.post_comment set userId = 4 WHERE id = 5;
+
+alter table post_comment
+    alter column postId int not null
+go
+
+alter table post_comment
+    alter column userId int not null
+go
